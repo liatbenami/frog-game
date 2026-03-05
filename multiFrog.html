@@ -1,0 +1,485 @@
+<!DOCTYPE html>
+<html lang="he">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>🐸 משחק לוח הכפל</title>
+  <style>
+    * { margin: 0; padding: 0; box-sizing: border-box; }
+
+    body {
+      width: 100vw; height: 100vh;
+      overflow: hidden;
+      font-family: 'Comic Sans MS', cursive, sans-serif;
+      user-select: none;
+    }
+
+    #game {
+      width: 100%; height: 100%;
+      position: relative;
+      background: url('pics/swamp.jpg') center center / cover no-repeat;
+    }
+
+    /* ── Score ─────────────────────────────── */
+    #score-box {
+      position: absolute;
+      top: 16px; right: 20px;
+      background: rgba(255,255,255,0.9);
+      border: 3px solid #4a9c20;
+      border-radius: 25px;
+      padding: 8px 22px;
+      font-size: 1.3rem; font-weight: bold; color: #1a5000;
+      box-shadow: 0 4px 12px rgba(0,0,0,0.3);
+      z-index: 100;
+    }
+
+    /* ── Center lily pad ─────────────────────── */
+    #center {
+      position: absolute;
+      top: 8%; left: 50%;
+      transform: translateX(-50%);
+      width: 340px; height: 200px;
+      z-index: 20;
+      animation: lily-bob 3.5s ease-in-out infinite;
+    }
+
+    @keyframes lily-bob {
+      0%,100% { transform: translateX(-50%) translateY(0);   }
+      50%      { transform: translateX(-50%) translateY(-9px); }
+    }
+
+    #lily-wrap {
+      position: absolute; inset: 0;
+      filter: drop-shadow(0 8px 20px rgba(0,0,0,0.55));
+    }
+
+    #lily-img { width: 100%; height: 100%; object-fit: contain; display: block; }
+
+    /* Entrance animation on new question */
+    #lily-wrap.entering {
+      animation: lily-enter 0.5s cubic-bezier(0.34, 1.56, 0.64, 1) forwards;
+    }
+
+    @keyframes lily-enter {
+      from { transform: scale(0.55); opacity: 0; }
+      to   { transform: scale(1);    opacity: 1; }
+    }
+
+    #problem {
+      position: absolute; inset: 0;
+      display: flex; align-items: center; justify-content: center;
+      font-size: 2.5rem; font-weight: 900; color: #fff;
+      text-shadow: 2px 2px 0 #0a3000, -2px 2px 0 #0a3000,
+                   2px -2px 0 #0a3000, -2px -2px 0 #0a3000;
+      pointer-events: none; z-index: 5;
+      transition: opacity 0.25s;
+    }
+
+    /* ── Flies ──────────────────────────────── */
+    .fly-arm {
+      position: absolute; top: 50%; left: 50%;
+      width: 0; height: 0; transform-origin: 0 0;
+    }
+
+    @keyframes orbit-cw {
+      from { transform: rotate(0deg);   }
+      to   { transform: rotate(360deg); }
+    }
+
+    @keyframes fly-flap {
+      from { transform: scaleY(1)   rotate(-8deg); }
+      to   { transform: scaleY(0.8) rotate( 8deg); }
+    }
+
+    /* ── Frogs ───────────────────────────────── */
+    #frogs {
+      position: absolute; bottom: 0; left: 0; right: 0;
+      display: flex; justify-content: space-around; align-items: flex-end;
+      padding: 0 4%; z-index: 30;
+    }
+
+    .frog {
+      position: relative; width: 265px;
+      cursor: pointer;
+    }
+
+    /* Breathing on the image, hover on the wrapper */
+    .frog-svg {
+      width: 100%; height: auto; display: block;
+      animation: frog-breathe 2.8s ease-in-out infinite;
+      transform-origin: bottom center;
+    }
+
+    #f1 .frog-svg { animation-delay: -0.9s; }
+    #f2 .frog-svg { animation-delay: -1.8s; }
+
+    @keyframes frog-breathe {
+      0%,100% { transform: scaleY(1)    scaleX(1);    }
+      50%      { transform: scaleY(1.04) scaleX(0.97); }
+    }
+
+    .frog:not(.sad):hover .frog-svg {
+      animation: none;
+      transform: translateY(-12px) scale(1.09);
+      transition: transform 0.15s;
+    }
+
+    .frog-num {
+      position: absolute; left: 50%; top: 58%;
+      transform: translate(-50%, -50%);
+      font-size: 2.4rem; font-weight: 900; color: #ffe000;
+      text-shadow: 2px 2px 0 #000, -2px 2px 0 #000,
+                   2px -2px 0 #000, -2px -2px 0 #000;
+      pointer-events: none; z-index: 5;
+    }
+
+    /* ── Sad frog ────────────────────────────── */
+    .frog.sad .frog-svg {
+      animation: sad-vibrate 0.6s ease-in-out !important;
+      filter: saturate(0.15) brightness(0.5);
+    }
+
+    @keyframes sad-vibrate {
+      0%,100%             { transform: translateX(0);    }
+      10%,30%,50%,70%,90% { transform: translateX(-9px); }
+      20%,40%,60%,80%     { transform: translateX( 9px); }
+    }
+
+    /* ── Flash ───────────────────────────────── */
+    #flash {
+      position: fixed; inset: 0;
+      background: rgba(140,255,140,0.38);
+      pointer-events: none; opacity: 0;
+    }
+
+    #flash.on { animation: flash-anim 0.55s ease-out forwards; }
+
+    @keyframes flash-anim {
+      0%   { opacity: 1; }
+      100% { opacity: 0; }
+    }
+
+    /* ── Tongue SVG overlay ──────────────────── */
+    #tongue-svg {
+      position: absolute; inset: 0;
+      width: 100%; height: 100%;
+      pointer-events: none; z-index: 40; overflow: visible;
+    }
+
+    /* ── Responsive / Mobile ─────────────────── */
+    @media (max-width: 700px) {
+      #score-box {
+        top: 10px; right: 10px;
+        font-size: 1rem; padding: 5px 14px;
+      }
+
+      #center {
+        width: 80vw;
+        height: 47vw;
+        top: 5%;
+      }
+
+      #problem { font-size: clamp(1rem, 5.5vw, 2.5rem); }
+
+      .fly-arm img { width: clamp(20px, 6vw, 38px) !important; }
+
+      #frogs { padding: 0 1%; }
+
+      .frog { width: 29vw; }
+
+      .frog-num { font-size: clamp(0.9rem, 6.5vw, 2.4rem); }
+
+      .frog:not(.sad):hover .frog-svg {
+        transform: translateY(-6px) scale(1.06);
+      }
+    }
+
+    /* ── Very small screens (< 380px) ────────── */
+    @media (max-width: 380px) {
+      #center { width: 86vw; height: 50vw; }
+      .frog   { width: 30vw; }
+    }
+  </style>
+</head>
+<body>
+<div id="game">
+  <div id="score-box">⭐ <span id="score">0</span></div>
+  <div id="flash"></div>
+  <svg id="tongue-svg"></svg>
+
+  <!-- ── Lily pad ── -->
+  <div id="center">
+    <div id="lily-wrap">
+      <img id="lily-img" src="pics/ale.png" alt="עלה">
+    </div>
+    <div id="problem">3 × 4 = ?</div>
+    <!-- flies injected by JS -->
+  </div>
+
+  <!-- ── 3 SVG Frogs ── -->
+  <div id="frogs">
+
+    <div class="frog" id="f0" onclick="handleClick(0)">
+      <img class="frog-svg" src="pics/frog-removebg.png" alt="צפרדע">
+      <div class="frog-num" id="n0">?</div>
+    </div>
+
+    <div class="frog" id="f1" onclick="handleClick(1)">
+      <img class="frog-svg" src="pics/frog-removebg.png" alt="צפרדע">
+      <div class="frog-num" id="n1">?</div>
+    </div>
+
+    <div class="frog" id="f2" onclick="handleClick(2)">
+      <img class="frog-svg" src="pics/frog-removebg.png" alt="צפרדע">
+      <div class="frog-num" id="n2">?</div>
+    </div>
+
+  </div>
+</div>
+
+<script>
+  // ── State ─────────────────────────────────────────────────
+  let score      = 0;
+  let opts       = [];
+  let correctAns = 0;
+  let busy       = false;
+
+  // ── Flies ─────────────────────────────────────────────────
+  const FLY_RADII  = [86, 108, 95, 116];
+  const FLY_SPEEDS = [3.3, 4.1, 2.7, 3.8];
+  const FLY_START  = [0, 90, 195, 305];
+
+  function initFlies() {
+    const center = document.getElementById('center');
+    center.querySelectorAll('.fly-arm').forEach(e => e.remove());
+
+    FLY_RADII.forEach((r, i) => {
+      const arm = document.createElement('div');
+      arm.className = 'fly-arm';
+      const delay = -(FLY_START[i] / 360) * FLY_SPEEDS[i];
+      arm.style.cssText = `
+        position:absolute; top:50%; left:50%;
+        width:0; height:0; transform-origin:0 0;
+        animation: orbit-cw ${FLY_SPEEDS[i]}s linear ${delay}s infinite;
+      `;
+      const img = document.createElement('img');
+      img.src = 'pics/fly.png';
+      img.style.cssText = `
+        position:absolute; left:${r}px; top:-20px;
+        width:38px; height:auto;
+        mix-blend-mode:multiply;
+        animation: fly-flap ${0.17 + i * 0.04}s ease-in-out infinite alternate;
+      `;
+      arm.appendChild(img);
+      center.appendChild(arm);
+    });
+  }
+
+  // ── Tongue — setTimeout-based (reliable across all browsers) ──
+  // Correct: full arc → slurp + eat flies → retract → onDone
+  // Wrong:   60% arc (misses) → retract → onDone
+  const CURVE_OFFSET = [115, -35, -115]; // left / center / right frog
+  const SHOOT_MS = 140, RETRACT_MS = 190;
+
+  function shootTongue(frogIdx, isMiss, onDone) {
+    const gameEl = document.getElementById('game');
+    const frogEl = document.getElementById(`f${frogIdx}`);
+    const lilyEl = document.getElementById('lily-wrap');
+    const svgEl  = document.getElementById('tongue-svg');
+
+    const gr = gameEl.getBoundingClientRect();
+    const fr = frogEl.getBoundingClientRect();
+    const lr = lilyEl.getBoundingClientRect();
+
+    // Mouth = top-center of frog, ~42% from top
+    const sx = fr.left - gr.left + fr.width  / 2;
+    const sy = fr.top  - gr.top  + fr.height * 0.42;
+    // Lily pad center
+    const ex = lr.left - gr.left + lr.width  / 2;
+    const ey = lr.top  - gr.top  + lr.height / 2;
+
+    // Quadratic bezier control point
+    const mx  = (sx + ex) / 2, my  = (sy + ey) / 2;
+    const cpX = mx + CURVE_OFFSET[frogIdx], cpY = my - 25;
+
+    const path = document.createElementNS('http://www.w3.org/2000/svg', 'path');
+    path.setAttribute('d',              `M ${sx},${sy} Q ${cpX},${cpY} ${ex},${ey}`);
+    path.setAttribute('stroke',         '#e8587a');
+    path.setAttribute('stroke-width',   '24');
+    path.setAttribute('stroke-linecap', 'round');
+    path.setAttribute('fill',           'none');
+    path.setAttribute('opacity',        '0.94');
+    svgEl.appendChild(path);
+
+    const len      = path.getTotalLength();
+    const extendTo = isMiss ? `${(len * 0.45).toFixed(1)}` : '0';
+    const holdMs   = isMiss ? 50 : 100;
+
+    // Set initial hidden state
+    path.style.strokeDasharray  = `${len}`;
+    path.style.strokeDashoffset = `${len}`;
+
+    // Phase 1 — whip out (fast!)
+    requestAnimationFrame(() => requestAnimationFrame(() => {
+      path.style.transition       = `stroke-dashoffset ${SHOOT_MS}ms cubic-bezier(0.15, 0, 0.1, 1)`;
+      path.style.strokeDashoffset = extendTo;
+
+      // After extend completes
+      setTimeout(() => {
+        if (!isMiss) {
+          // Correct: slurp sound + eat flies
+          playSlurp();
+          document.querySelectorAll('.fly-arm').forEach(arm => {
+            arm.style.transition = 'transform 0.12s ease-in, opacity 0.12s';
+            arm.style.transform  = 'scale(0)';
+            arm.style.opacity    = '0';
+          });
+        }
+
+        // Phase 2 — hold then retract
+        setTimeout(() => {
+          path.style.transition       = `stroke-dashoffset ${RETRACT_MS}ms ease-in`;
+          path.style.strokeDashoffset = `${len}`;
+
+          // Phase 3 — done: remove path, fire callback
+          setTimeout(() => {
+            path.remove();
+            if (onDone) onDone();
+          }, RETRACT_MS + 20);
+
+        }, holdMs);
+      }, SHOOT_MS + 10);
+    }));
+  }
+
+  // ── Wrong answers ─────────────────────────────────────────
+  function getWrongAnswers(correct) {
+    const pool = [];
+    for (let a = 1; a <= 10; a++)
+      for (let b = 1; b <= 10; b++)
+        if (a * b !== correct) pool.push(a * b);
+
+    const unique = [...new Set(pool)].sort(
+      (a, b) => Math.abs(a - correct) - Math.abs(b - correct)
+    );
+    const wrong = [];
+    for (const n of unique) {
+      if (wrong.length === 2) break;
+      if (!wrong.includes(n)) wrong.push(n);
+    }
+    return wrong;
+  }
+
+  // ── New question ──────────────────────────────────────────
+  function newQuestion() {
+    busy = false;
+
+    for (let i = 0; i < 3; i++) {
+      const f = document.getElementById(`f${i}`);
+      f.className  = 'frog';
+      f.style.filter = '';
+    }
+
+    // Reset lily pad instantly (no un-eat animation)
+    const lilyWrap = document.getElementById('lily-wrap');
+    lilyWrap.style.transition = 'none';
+    lilyWrap.style.transform  = '';
+    lilyWrap.style.opacity    = '';
+    void lilyWrap.offsetWidth;
+    lilyWrap.style.transition = '';
+
+    // Entrance bounce
+    lilyWrap.classList.remove('entering');
+    void lilyWrap.offsetWidth;
+    lilyWrap.classList.add('entering');
+
+    document.getElementById('problem').style.opacity = '1';
+
+    const a = Math.ceil(Math.random() * 10);
+    const b = Math.ceil(Math.random() * 10);
+    correctAns = a * b;
+    document.getElementById('problem').textContent = `${a} × ${b} = ?`;
+
+    const wrong = getWrongAnswers(correctAns);
+    opts = [correctAns, ...wrong].sort(() => Math.random() - 0.5);
+    for (let i = 0; i < 3; i++)
+      document.getElementById(`n${i}`).textContent = opts[i];
+
+    initFlies();
+  }
+
+  // ── Click handler ─────────────────────────────────────────
+  function handleClick(idx) {
+    if (busy) return;
+    busy = true;
+
+    if (opts[idx] === correctAns) {
+      // ✅ Correct: tongue → eats fly → snaps back → success sound → new leaf
+      score++;
+      document.getElementById('score').textContent = score;
+
+      const flash = document.getElementById('flash');
+      flash.classList.remove('on');
+      void flash.offsetWidth;
+      flash.classList.add('on');
+
+      shootTongue(idx, false, () => {
+        playSuccess();
+        // Lily pad disappears, then new question
+        const lilyWrap = document.getElementById('lily-wrap');
+        lilyWrap.style.transition = 'transform 0.38s ease-in, opacity 0.38s ease-in';
+        lilyWrap.style.transform  = 'scale(0.05) rotate(12deg)';
+        lilyWrap.style.opacity    = '0';
+        document.getElementById('problem').style.opacity = '0';
+        setTimeout(newQuestion, 520);
+      });
+
+    } else {
+      // ❌ Wrong: tongue misses → snaps back → vibrate + sad croak → new leaf
+      shootTongue(idx, true, () => {
+        const frogEl = document.getElementById(`f${idx}`);
+        frogEl.classList.add('sad');
+        playSadCroak();
+        setTimeout(() => {
+          frogEl.classList.remove('sad');
+          newQuestion();
+        }, 900);
+      });
+    }
+  }
+
+  // ── Audio ─────────────────────────────────────────────────
+
+  // Licking sound — tongue grabs fly (MP3 file)
+  function playSlurp() {
+    try { new Audio('Sounds/licking.mp3').play(); } catch(e) {}
+  }
+
+  // Ascending chord — success jingle
+  function playSuccess() {
+    try {
+      const ctx = new (window.AudioContext || window.webkitAudioContext)();
+      [523, 659, 784, 1047].forEach((freq, i) => {
+        const osc  = ctx.createOscillator();
+        const gain = ctx.createGain();
+        osc.connect(gain); gain.connect(ctx.destination);
+        osc.type = 'sine'; osc.frequency.value = freq;
+        const t = ctx.currentTime + i * 0.11;
+        gain.gain.setValueAtTime(0, t);
+        gain.gain.linearRampToValueAtTime(0.28, t + 0.02);
+        gain.gain.exponentialRampToValueAtTime(0.001, t + 0.38);
+        osc.start(t); osc.stop(t + 0.4);
+      });
+    } catch(e) {}
+  }
+
+  // Sad frog croak — wrong answer (MP3 file)
+  function playSadCroak() {
+    try { new Audio('Sounds/soundSadfrogs.mp3').play(); } catch(e) {}
+  }
+
+  // ── Start ─────────────────────────────────────────────────
+  newQuestion();
+</script>
+</body>
+</html>
