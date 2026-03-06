@@ -8,7 +8,7 @@
     * { margin: 0; padding: 0; box-sizing: border-box; }
 
     body {
-      width: 100vw; height: 100vh;
+      width: 100vw; height: 100vh; height: 100dvh;
       overflow: hidden;
       font-family: 'Comic Sans MS', cursive, sans-serif;
       user-select: none;
@@ -36,9 +36,9 @@
     /* ── Center lily pad ─────────────────────── */
     #center {
       position: absolute;
-      top: 8%; left: 50%;
+      top: 7%; left: 50%;
       transform: translateX(-50%);
-      width: 340px; height: 200px;
+      width: 420px; height: 250px;
       z-index: 20;
       animation: lily-bob 3.5s ease-in-out infinite;
     }
@@ -93,15 +93,21 @@
 
     /* ── Frogs ───────────────────────────────── */
     #frogs {
-      position: absolute; bottom: 0; left: 0; right: 0;
-      display: flex; justify-content: space-around; align-items: flex-end;
-      padding: 0 4%; z-index: 30;
+      position: absolute; inset: 0;
+      z-index: 30; pointer-events: none;
     }
 
     .frog {
-      position: relative; width: 265px;
-      cursor: pointer;
+      position: absolute; width: 265px;
+      cursor: pointer; pointer-events: auto;
+      transform: translateX(-50%);
+      transform-origin: bottom center;
+      transition: transform 0.15s;
     }
+
+    #f0 { left: 15%; bottom: 20%; }
+    #f1 { left: 50%; bottom: 2%; }
+    #f2 { left: 85%; bottom: 20%; }
 
     /* Breathing on the image, hover on the wrapper */
     .frog-svg {
@@ -118,16 +124,18 @@
       50%      { transform: scaleY(1.04) scaleX(0.97); }
     }
 
+    .frog:not(.sad):hover {
+      transform: translateX(-50%) translateY(-12px) scale(1.09);
+    }
+
     .frog:not(.sad):hover .frog-svg {
       animation: none;
-      transform: translateY(-12px) scale(1.09);
-      transition: transform 0.15s;
     }
 
     .frog-num {
       position: absolute; left: 50%; top: 58%;
       transform: translate(-50%, -50%);
-      font-size: 2.4rem; font-weight: 900; color: #ffe000;
+      font-size: 2.4rem; font-weight: 900; color: #FF1493;
       text-shadow: 2px 2px 0 #000, -2px 2px 0 #000,
                    2px -2px 0 #000, -2px -2px 0 #000;
       pointer-events: none; z-index: 5;
@@ -166,38 +174,86 @@
       pointer-events: none; z-index: 40; overflow: visible;
     }
 
-    /* ── Responsive / Mobile ─────────────────── */
-    @media (max-width: 700px) {
+    /* ── Portrait phones ────────────────────── */
+    @media (max-width: 600px) and (orientation: portrait) {
       #score-box {
         top: 10px; right: 10px;
         font-size: 1rem; padding: 5px 14px;
       }
 
-      #center {
-        width: 80vw;
-        height: 47vw;
-        top: 5%;
+      #center { width: 80vw; height: 47vw; top: 4%; }
+
+      #problem { font-size: clamp(1rem, 6vw, 2.5rem); }
+
+      .fly-arm img { width: clamp(16px, 5vw, 30px) !important; }
+
+      .frog { width: 28vw; }
+
+      #f0 { left: 16%; bottom: 24%; }
+      #f1 { left: 50%; bottom: 8%; }
+      #f2 { left: 84%; bottom: 24%; }
+
+      .frog-num { font-size: clamp(1rem, 7vw, 2.4rem); }
+
+      .frog:not(.sad):hover {
+        transform: translateX(-50%) translateY(-6px) scale(1.06);
       }
-
-      #problem { font-size: clamp(1rem, 5.5vw, 2.5rem); }
-
-      .fly-arm img { width: clamp(20px, 6vw, 38px) !important; }
-
-      #frogs { padding: 0 1%; }
-
-      .frog { width: 29vw; }
-
-      .frog-num { font-size: clamp(0.9rem, 6.5vw, 2.4rem); }
-
-      .frog:not(.sad):hover .frog-svg {
-        transform: translateY(-6px) scale(1.06);
-      }
+      .frog:not(.sad):hover .frog-svg { animation: none; }
     }
 
-    /* ── Very small screens (< 380px) ────────── */
-    @media (max-width: 380px) {
+    /* ── Portrait tablets / large phones ────── */
+    @media (min-width: 601px) and (max-width: 900px) and (orientation: portrait) {
+      #center { width: 55vw; height: 32vw; top: 5%; }
+      .frog { width: 22vw; }
+      #f0 { left: 14%; bottom: 22%; }
+      #f1 { left: 50%; bottom: 6%; }
+      #f2 { left: 86%; bottom: 22%; }
+    }
+
+    /* ── Landscape phones (short screens) ────── */
+    @media (orientation: landscape) and (max-height: 500px) {
+      #score-box {
+        top: 6px; right: 8px;
+        font-size: 0.85rem; padding: 4px 10px;
+      }
+
+      #center { width: 30vw; height: 18vw; top: 2%; }
+
+      #problem { font-size: clamp(0.8rem, 3vw, 1.6rem); }
+
+      .fly-arm img { width: clamp(10px, 2.5vw, 20px) !important; }
+
+      .frog { width: 17vw; }
+
+      #f0 { left: 14%; bottom: 10%; }
+      #f1 { left: 50%; bottom: 1%; }
+      #f2 { left: 86%; bottom: 10%; }
+
+      .frog-num { font-size: clamp(0.75rem, 3vw, 1.6rem); }
+
+      .frog:not(.sad):hover {
+        transform: translateX(-50%) translateY(-4px) scale(1.05);
+      }
+      .frog:not(.sad):hover .frog-svg { animation: none; }
+    }
+
+    /* ── Landscape tablets / small desktops (501–1100px tall/wide) ── */
+    @media (orientation: landscape) and (min-height: 501px) and (max-width: 1100px) {
+      #center { width: 38vw; height: 23vw; top: 4%; }
+      .frog { width: 22vw; }
+      #f0 { left: 14%; bottom: 18%; }
+      #f1 { left: 50%; bottom: 3%; }
+      #f2 { left: 86%; bottom: 18%; }
+      .frog-num { font-size: clamp(1rem, 4vw, 2rem); }
+    }
+
+    /* ── Very small portrait (< 380px) ─────── */
+    @media (max-width: 380px) and (orientation: portrait) {
       #center { width: 86vw; height: 50vw; }
-      .frog   { width: 30vw; }
+      .frog { width: 30vw; }
+      #f0 { left: 17%; bottom: 26%; }
+      #f1 { left: 50%; bottom: 9%; }
+      #f2 { left: 83%; bottom: 26%; }
     }
   </style>
 </head>
@@ -302,27 +358,44 @@
     const mx  = (sx + ex) / 2, my  = (sy + ey) / 2;
     const cpX = mx + CURVE_OFFSET[frogIdx], cpY = my - 25;
 
+    const d = `M ${sx},${sy} Q ${cpX},${cpY} ${ex},${ey}`;
+
+    // Tongue body — fleshy pink, wide, rounded
     const path = document.createElementNS('http://www.w3.org/2000/svg', 'path');
-    path.setAttribute('d',              `M ${sx},${sy} Q ${cpX},${cpY} ${ex},${ey}`);
-    path.setAttribute('stroke',         '#e8587a');
-    path.setAttribute('stroke-width',   '24');
+    path.setAttribute('d',              d);
+    path.setAttribute('stroke',         '#FF7096');
+    path.setAttribute('stroke-width',   '30');
     path.setAttribute('stroke-linecap', 'round');
     path.setAttribute('fill',           'none');
-    path.setAttribute('opacity',        '0.94');
+    path.setAttribute('opacity',        '0.97');
     svgEl.appendChild(path);
+
+    // Center crease — darker, narrow stripe for the tongue groove
+    const crease = document.createElementNS('http://www.w3.org/2000/svg', 'path');
+    crease.setAttribute('d',              d);
+    crease.setAttribute('stroke',         '#B02050');
+    crease.setAttribute('stroke-width',   '7');
+    crease.setAttribute('stroke-linecap', 'round');
+    crease.setAttribute('fill',           'none');
+    crease.setAttribute('opacity',        '0.72');
+    svgEl.appendChild(crease);
 
     const len      = path.getTotalLength();
     const extendTo = isMiss ? `${(len * 0.45).toFixed(1)}` : '0';
     const holdMs   = isMiss ? 50 : 100;
 
-    // Set initial hidden state
-    path.style.strokeDasharray  = `${len}`;
-    path.style.strokeDashoffset = `${len}`;
+    // Set initial hidden state on both layers
+    [path, crease].forEach(p => {
+      p.style.strokeDasharray  = `${len}`;
+      p.style.strokeDashoffset = `${len}`;
+    });
 
     // Phase 1 — whip out (fast!)
     requestAnimationFrame(() => requestAnimationFrame(() => {
-      path.style.transition       = `stroke-dashoffset ${SHOOT_MS}ms cubic-bezier(0.15, 0, 0.1, 1)`;
-      path.style.strokeDashoffset = extendTo;
+      [path, crease].forEach(p => {
+        p.style.transition       = `stroke-dashoffset ${SHOOT_MS}ms cubic-bezier(0.15, 0, 0.1, 1)`;
+        p.style.strokeDashoffset = extendTo;
+      });
 
       // After extend completes
       setTimeout(() => {
@@ -338,12 +411,15 @@
 
         // Phase 2 — hold then retract
         setTimeout(() => {
-          path.style.transition       = `stroke-dashoffset ${RETRACT_MS}ms ease-in`;
-          path.style.strokeDashoffset = `${len}`;
+          [path, crease].forEach(p => {
+            p.style.transition       = `stroke-dashoffset ${RETRACT_MS}ms ease-in`;
+            p.style.strokeDashoffset = `${len}`;
+          });
 
-          // Phase 3 — done: remove path, fire callback
+          // Phase 3 — done: remove paths, fire callback
           setTimeout(() => {
             path.remove();
+            crease.remove();
             if (onDone) onDone();
           }, RETRACT_MS + 20);
 
