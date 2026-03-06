@@ -48,6 +48,11 @@
       50%      { transform: translateX(-50%) translateY(-9px); }
     }
 
+    @keyframes lily-bob-portrait {
+      0%,100% { transform: translate(-50%, -50%) translateY(0);   }
+      50%      { transform: translate(-50%, -50%) translateY(-9px); }
+    }
+
     #lily-wrap {
       position: absolute; inset: 0;
       filter: drop-shadow(0 8px 20px rgba(0,0,0,0.55));
@@ -185,19 +190,24 @@
         font-size: 0.9rem; padding: 4px 10px;
       }
 
-      #center { width: 96vw; height: 57vw; top: 2%; }
+      /* Leaf centered vertically */
+      #center {
+        width: 96vw; height: 57vw;
+        top: 50%;
+        animation: lily-bob-portrait 3.5s ease-in-out infinite;
+      }
 
-      #problem { font-size: clamp(1.4rem, 9.5vw, 3.5rem); }
+      #problem { font-size: clamp(1.8rem, 13vw, 5rem); }
 
       .fly-arm img { width: clamp(14px, 4.5vw, 26px) !important; }
 
-      .frog { width: 48vw; }
+      /* f0/f2 sit at the sides of the leaf; f1 below */
+      .frog { width: 40vw; }
+      #f0 { left: 20%; bottom: 37%; }
+      #f1 { left: 50%; bottom: 3%; }
+      #f2 { left: 80%; bottom: 37%; }
 
-      #f0 { left: 25%; bottom: 46%; }
-      #f1 { left: 50%; bottom: 4%; }
-      #f2 { left: 75%; bottom: 46%; }
-
-      .frog-num { font-size: clamp(1.4rem, 11vw, 3.5rem); }
+      .frog-num { font-size: clamp(1.5rem, 11vw, 3.5rem); }
 
       .frog:not(.sad):hover {
         transform: translateX(-50%) translateY(-6px) scale(1.06);
@@ -331,10 +341,10 @@
     /* ── Very small portrait (< 380px) ─────── */
     @media (max-width: 380px) and (orientation: portrait) {
       #center { width: 96vw; height: 57vw; }
-      .frog { width: 48vw; }
-      #f0 { left: 25%; bottom: 46%; }
-      #f1 { left: 50%; bottom: 4%; }
-      #f2 { left: 75%; bottom: 46%; }
+      .frog { width: 40vw; }
+      #f0 { left: 20%; bottom: 37%; }
+      #f1 { left: 50%; bottom: 3%; }
+      #f2 { left: 80%; bottom: 37%; }
     }
   </style>
 </head>
