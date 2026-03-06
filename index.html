@@ -742,6 +742,11 @@
 
   // ── Start ─────────────────────────────────────────────────
   newQuestion();
+
+  // ── Service Worker (force fresh updates) ──────────────────
+  if ('serviceWorker' in navigator) {
+    navigator.serviceWorker.register('./sw.js');
+  }
 </script>
 </body>
 </html>
