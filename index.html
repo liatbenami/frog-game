@@ -185,8 +185,8 @@
       pointer-events: none; z-index: 40; overflow: visible;
     }
 
-    /* ── Portrait phones ────────────────────── */
-    @media (max-width: 600px) and (orientation: portrait) {
+    /* ── Portrait (all phones & tablets up to 1024px) ────── */
+    @media (orientation: portrait) and (max-width: 1024px) {
       #score-box {
         top: 8px; right: 8px;
         font-size: 0.9rem; padding: 4px 10px;
@@ -215,16 +215,6 @@
         transform: translateX(-50%) translateY(-6px) scale(1.06);
       }
       .frog:not(.sad):hover .frog-svg { animation: none; }
-    }
-
-    /* ── Portrait tablets / large phones ────── */
-    @media (min-width: 601px) and (max-width: 900px) and (orientation: portrait) {
-      #center { width: 80vw; height: 47vw; top: 3%; }
-      .frog { width: 38vw; }
-      #f0 { left: 21%; bottom: 44%; }
-      #f1 { left: 50%; bottom: 5%; }
-      #f2 { left: 79%; bottom: 44%; }
-      .frog-num { font-size: clamp(1.3rem, 8vw, 3rem); }
     }
 
     /* ── Landscape phones (short screens) ────── */
@@ -353,7 +343,7 @@
 <body>
 <div id="game">
   <div id="score-box">⭐ <span id="score">0</span></div>
-  <div style="position:absolute;bottom:4px;left:4px;font-size:11px;color:rgba(255,255,255,0.7);z-index:999">v7</div>
+  <div style="position:absolute;bottom:4px;left:4px;font-size:11px;color:rgba(255,255,255,0.7);z-index:999">v8</div>
   <div id="flash"></div>
   <svg id="tongue-svg"></svg>
 
