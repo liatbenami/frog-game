@@ -38,7 +38,7 @@
       position: absolute;
       top: 7%; left: 50%;
       transform: translateX(-50%);
-      width: 420px; height: 250px;
+      width: 490px; height: 290px;
       z-index: 20;
       animation: lily-bob 3.5s ease-in-out infinite;
     }
@@ -68,9 +68,11 @@
     #problem {
       position: absolute; inset: 0;
       display: flex; align-items: center; justify-content: center;
-      font-size: 2.5rem; font-weight: 900; color: #fff;
+      font-size: 3.2rem; font-weight: 900; color: #fff;
       text-shadow: 2px 2px 0 #0a3000, -2px 2px 0 #0a3000,
-                   2px -2px 0 #0a3000, -2px -2px 0 #0a3000;
+                   2px -2px 0 #0a3000, -2px -2px 0 #0a3000,
+                   3px 3px 0 #0a3000, -3px 3px 0 #0a3000,
+                   3px -3px 0 #0a3000, -3px -3px 0 #0a3000;
       pointer-events: none; z-index: 5;
       transition: opacity 0.25s;
     }
@@ -98,7 +100,7 @@
     }
 
     .frog {
-      position: absolute; width: 265px;
+      position: absolute; width: 300px;
       cursor: pointer; pointer-events: auto;
       transform: translateX(-50%);
       transform-origin: bottom center;
@@ -135,9 +137,11 @@
     .frog-num {
       position: absolute; left: 50%; top: 58%;
       transform: translate(-50%, -50%);
-      font-size: 2.4rem; font-weight: 900; color: #FF1493;
+      font-size: 2.8rem; font-weight: 900; color: #FF1493;
       text-shadow: 2px 2px 0 #000, -2px 2px 0 #000,
-                   2px -2px 0 #000, -2px -2px 0 #000;
+                   2px -2px 0 #000, -2px -2px 0 #000,
+                   2px 0 0 #000, -2px 0 0 #000,
+                   0 2px 0 #000, 0 -2px 0 #000;
       pointer-events: none; z-index: 5;
     }
 
@@ -181,17 +185,17 @@
         font-size: 1rem; padding: 5px 14px;
       }
 
-      #center { width: 80vw; height: 47vw; top: 4%; }
+      #center { width: 82vw; height: 48vw; top: 5%; }
 
-      #problem { font-size: clamp(1rem, 6vw, 2.5rem); }
+      #problem { font-size: clamp(1rem, 6.5vw, 2.5rem); }
 
       .fly-arm img { width: clamp(16px, 5vw, 30px) !important; }
 
-      .frog { width: 28vw; }
+      .frog { width: 30vw; }
 
-      #f0 { left: 16%; bottom: 24%; }
-      #f1 { left: 50%; bottom: 8%; }
-      #f2 { left: 84%; bottom: 24%; }
+      #f0 { left: 16%; bottom: 35%; }
+      #f1 { left: 50%; bottom: 18%; }
+      #f2 { left: 84%; bottom: 35%; }
 
       .frog-num { font-size: clamp(1rem, 7vw, 2.4rem); }
 
@@ -204,10 +208,10 @@
     /* ── Portrait tablets / large phones ────── */
     @media (min-width: 601px) and (max-width: 900px) and (orientation: portrait) {
       #center { width: 55vw; height: 32vw; top: 5%; }
-      .frog { width: 22vw; }
-      #f0 { left: 14%; bottom: 22%; }
-      #f1 { left: 50%; bottom: 6%; }
-      #f2 { left: 86%; bottom: 22%; }
+      .frog { width: 24vw; }
+      #f0 { left: 14%; bottom: 35%; }
+      #f1 { left: 50%; bottom: 18%; }
+      #f2 { left: 86%; bottom: 35%; }
     }
 
     /* ── Landscape phones (short screens) ────── */
@@ -223,13 +227,19 @@
 
       .fly-arm img { width: clamp(10px, 2.5vw, 20px) !important; }
 
-      .frog { width: 17vw; }
+      .frog { width: 19vw; }
 
       #f0 { left: 14%; bottom: 10%; }
       #f1 { left: 50%; bottom: 1%; }
       #f2 { left: 86%; bottom: 10%; }
 
-      .frog-num { font-size: clamp(0.75rem, 3vw, 1.6rem); }
+      .frog-num {
+        font-size: clamp(1rem, 4.5vw, 2rem);
+        text-shadow: 3px 3px 0 #000, -3px 3px 0 #000,
+                     3px -3px 0 #000, -3px -3px 0 #000,
+                     3px 0 0 #000, -3px 0 0 #000,
+                     0 3px 0 #000, 0 -3px 0 #000;
+      }
 
       .frog:not(.sad):hover {
         transform: translateX(-50%) translateY(-4px) scale(1.05);
@@ -240,20 +250,90 @@
     /* ── Landscape tablets / small desktops (501–1100px tall/wide) ── */
     @media (orientation: landscape) and (min-height: 501px) and (max-width: 1100px) {
       #center { width: 38vw; height: 23vw; top: 4%; }
-      .frog { width: 22vw; }
+      .frog { width: 24vw; }
       #f0 { left: 14%; bottom: 18%; }
       #f1 { left: 50%; bottom: 3%; }
       #f2 { left: 86%; bottom: 18%; }
-      .frog-num { font-size: clamp(1rem, 4vw, 2rem); }
+      .frog-num {
+        font-size: clamp(1.1rem, 4.5vw, 2.2rem);
+        text-shadow: 3px 3px 0 #000, -3px 3px 0 #000,
+                     3px -3px 0 #000, -3px -3px 0 #000,
+                     3px 0 0 #000, -3px 0 0 #000,
+                     0 3px 0 #000, 0 -3px 0 #000;
+      }
+    }
+
+    /* ── Bravo overlay ──────────────────────── */
+    #bravo-overlay {
+      position: fixed; inset: 0;
+      display: flex; align-items: center; justify-content: center;
+      background: rgba(0,0,0,0);
+      z-index: 200; pointer-events: none;
+    }
+
+    #bravo-overlay.show {
+      animation: bravo-bg-in 0.3s forwards;
+      pointer-events: auto;
+    }
+
+    #bravo-overlay.hide { animation: bravo-bg-out 0.35s forwards; }
+
+    @keyframes bravo-bg-in  { to { background: rgba(0,0,0,0.6); } }
+    @keyframes bravo-bg-out { to { background: rgba(0,0,0,0);   } }
+
+    #bravo-card {
+      background: linear-gradient(155deg, #fffde0, #fff5b0);
+      border: 5px solid #ffd700;
+      border-radius: 28px;
+      padding: 32px 60px;
+      text-align: center;
+      box-shadow: 0 12px 55px rgba(0,0,0,0.5), 0 0 0 8px rgba(255,215,0,0.22);
+      direction: rtl;
+      transform: scale(0); opacity: 0;
+    }
+
+    #bravo-overlay.show  #bravo-card { animation: bravo-pop-in  0.55s cubic-bezier(0.34,1.56,0.64,1) 0.05s forwards; }
+    #bravo-overlay.hide  #bravo-card { animation: bravo-pop-out 0.3s ease-in forwards; }
+
+    @keyframes bravo-pop-in  {
+      from { transform: scale(0.2) rotate(-10deg); opacity: 0; }
+      to   { transform: scale(1)   rotate(0deg);   opacity: 1; }
+    }
+    @keyframes bravo-pop-out {
+      from { transform: scale(1);   opacity: 1; }
+      to   { transform: scale(0.6); opacity: 0; }
+    }
+
+    #bravo-stars { font-size: 2.2rem; margin-bottom: 6px; }
+
+    #bravo-title {
+      font-size: 3.8rem; font-weight: 900; color: #e55a00;
+      text-shadow: 3px 3px 0 #7a2800, -1px -1px 0 #7a2800;
+      margin-bottom: 14px;
+    }
+
+    #bravo-fact {
+      font-size: 5rem; font-weight: 900; color: #0a4000;
+      background: rgba(255,255,255,0.6);
+      border-radius: 14px; padding: 8px 28px;
+      display: inline-block;
+      text-shadow: 1px 1px 0 rgba(255,255,255,0.9);
+      direction: ltr; unicode-bidi: embed;
+    }
+
+    @media (max-width: 600px) {
+      #bravo-card  { padding: 22px 30px; }
+      #bravo-title { font-size: 2.6rem; }
+      #bravo-fact  { font-size: 3.5rem; }
     }
 
     /* ── Very small portrait (< 380px) ─────── */
     @media (max-width: 380px) and (orientation: portrait) {
       #center { width: 86vw; height: 50vw; }
       .frog { width: 30vw; }
-      #f0 { left: 17%; bottom: 26%; }
-      #f1 { left: 50%; bottom: 9%; }
-      #f2 { left: 83%; bottom: 26%; }
+      #f0 { left: 17%; bottom: 36%; }
+      #f1 { left: 50%; bottom: 20%; }
+      #f2 { left: 83%; bottom: 36%; }
     }
   </style>
 </head>
@@ -291,14 +371,27 @@
     </div>
 
   </div>
+
+  <!-- ── Bravo overlay ── -->
+  <div id="bravo-overlay">
+    <div id="bravo-card">
+      <div id="bravo-stars">⭐ ✨ ⭐</div>
+      <div id="bravo-title">כל הכבוד!</div>
+      <div id="bravo-fact">2 × 8 = 16</div>
+    </div>
+  </div>
 </div>
 
 <script>
   // ── State ─────────────────────────────────────────────────
-  let score      = 0;
-  let opts       = [];
-  let correctAns = 0;
-  let busy       = false;
+  let score         = 0;
+  let opts          = [];
+  let correctAns    = 0;
+  let busy          = false;
+  let wrongQueue    = [];          // [{a, b, showAfter}] — re-ask after wrong
+  let questionCount = 0;
+  let currentQ      = { a: 0, b: 0 };
+  let isRetry       = false;
 
   // ── Flies ─────────────────────────────────────────────────
   const FLY_RADII  = [86, 108, 95, 116];
@@ -471,8 +564,19 @@
 
     document.getElementById('problem').style.opacity = '1';
 
-    const a = Math.ceil(Math.random() * 10);
-    const b = Math.ceil(Math.random() * 10);
+    questionCount++;
+    let a, b;
+    const due = wrongQueue.find(q => q.showAfter <= questionCount);
+    if (due) {
+      wrongQueue.splice(wrongQueue.indexOf(due), 1);
+      a = due.a; b = due.b;
+      isRetry = true;
+    } else {
+      a = Math.ceil(Math.random() * 10);
+      b = Math.ceil(Math.random() * 10);
+      isRetry = false;
+    }
+    currentQ   = { a, b };
     correctAns = a * b;
     document.getElementById('problem').textContent = `${a} × ${b} = ?`;
 
@@ -490,7 +594,7 @@
     busy = true;
 
     if (opts[idx] === correctAns) {
-      // ✅ Correct: tongue → eats fly → snaps back → success sound → new leaf
+      // ✅ Correct
       score++;
       document.getElementById('score').textContent = score;
 
@@ -499,19 +603,40 @@
       void flash.offsetWidth;
       flash.classList.add('on');
 
-      shootTongue(idx, false, () => {
-        playSuccess();
-        // Lily pad disappears, then new question
-        const lilyWrap = document.getElementById('lily-wrap');
-        lilyWrap.style.transition = 'transform 0.38s ease-in, opacity 0.38s ease-in';
-        lilyWrap.style.transform  = 'scale(0.05) rotate(12deg)';
-        lilyWrap.style.opacity    = '0';
-        document.getElementById('problem').style.opacity = '0';
-        setTimeout(newQuestion, 520);
-      });
+      const wasRetry    = isRetry;
+      const { a, b }    = currentQ;
+
+      if (wasRetry) {
+        // 🎉 Retry correct → bravo overlay!
+        shootTongue(idx, false, () => {
+          const lilyWrap = document.getElementById('lily-wrap');
+          lilyWrap.style.transition = 'opacity 0.3s';
+          lilyWrap.style.opacity    = '0';
+          document.getElementById('problem').style.opacity = '0';
+          playBravoSound();
+          showBravo(a, b, newQuestion);
+        });
+      } else {
+        // Normal correct → standard success
+        shootTongue(idx, false, () => {
+          playSuccess();
+          const lilyWrap = document.getElementById('lily-wrap');
+          lilyWrap.style.transition = 'transform 0.38s ease-in, opacity 0.38s ease-in';
+          lilyWrap.style.transform  = 'scale(0.05) rotate(12deg)';
+          lilyWrap.style.opacity    = '0';
+          document.getElementById('problem').style.opacity = '0';
+          setTimeout(newQuestion, 520);
+        });
+      }
 
     } else {
-      // ❌ Wrong: tongue misses → snaps back → vibrate + sad croak → new leaf
+      // ❌ Wrong: schedule re-ask after 4–6 questions
+      const { a, b } = currentQ;
+      const showAfter = questionCount + 4 + Math.floor(Math.random() * 3);
+      const existing  = wrongQueue.findIndex(q => q.a === a && q.b === b);
+      if (existing >= 0) wrongQueue[existing].showAfter = showAfter;
+      else               wrongQueue.push({ a, b, showAfter });
+
       shootTongue(idx, true, () => {
         const frogEl = document.getElementById(`f${idx}`);
         frogEl.classList.add('sad');
@@ -552,6 +677,54 @@
   // Sad frog croak — wrong answer (MP3 file)
   function playSadCroak() {
     try { new Audio('sounds/soundSadfrogs.mp3').play(); } catch(e) {}
+  }
+
+  // ── Bravo fanfare — retry correct ─────────────────────────
+  function playBravoSound() {
+    try {
+      const ctx = new (window.AudioContext || window.webkitAudioContext)();
+      // Ascending arpeggio C-E-G-C-E
+      [523, 659, 784, 1047, 1319].forEach((freq, i) => {
+        const osc  = ctx.createOscillator();
+        const gain = ctx.createGain();
+        osc.connect(gain); gain.connect(ctx.destination);
+        osc.type = 'sine'; osc.frequency.value = freq;
+        const t = ctx.currentTime + i * 0.13;
+        gain.gain.setValueAtTime(0, t);
+        gain.gain.linearRampToValueAtTime(0.3, t + 0.04);
+        gain.gain.exponentialRampToValueAtTime(0.001, t + 0.55);
+        osc.start(t); osc.stop(t + 0.6);
+      });
+      // Final held chord
+      [523, 659, 784, 1047].forEach(freq => {
+        const osc  = ctx.createOscillator();
+        const gain = ctx.createGain();
+        osc.connect(gain); gain.connect(ctx.destination);
+        osc.type = 'sine'; osc.frequency.value = freq;
+        const t = ctx.currentTime + 5 * 0.13 + 0.08;
+        gain.gain.setValueAtTime(0, t);
+        gain.gain.linearRampToValueAtTime(0.22, t + 0.07);
+        gain.gain.exponentialRampToValueAtTime(0.001, t + 1.5);
+        osc.start(t); osc.stop(t + 1.6);
+      });
+    } catch(e) {}
+  }
+
+  // ── Bravo overlay ─────────────────────────────────────────
+  function showBravo(a, b, onDone) {
+    const overlay = document.getElementById('bravo-overlay');
+    document.getElementById('bravo-fact').textContent = `${a} × ${b} = ${a * b}`;
+    overlay.classList.remove('hide');
+    overlay.classList.add('show');
+
+    setTimeout(() => {
+      overlay.classList.add('hide');
+      overlay.classList.remove('show');
+      setTimeout(() => {
+        overlay.classList.remove('hide');
+        if (onDone) onDone();
+      }, 370);
+    }, 2700);
   }
 
   // ── Start ─────────────────────────────────────────────────
