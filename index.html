@@ -203,11 +203,11 @@
 
       .fly-arm img { width: clamp(22px, 6vw, 42px) !important; }
 
-      /* Semicircle below the leaf */
-      .frog { width: 42vw; }
-      #f0 { left: 22%; bottom: 12%; }
-      #f1 { left: 50%; bottom: 3%;  }
-      #f2 { left: 78%; bottom: 12%; }
+      /* Semicircle below the leaf — wider arc */
+      .frog { width: 38vw; }
+      #f0 { left: 16%; bottom: 18%; }
+      #f1 { left: 50%; bottom: 2%;  }
+      #f2 { left: 84%; bottom: 18%; }
 
       .frog-num { font-size: clamp(1.8rem, 13vw, 4.5rem); }
 
@@ -224,24 +224,28 @@
         font-size: 0.85rem; padding: 4px 10px;
       }
 
-      #center { width: 30vw; height: 18vw; top: 2%; }
+      #center { width: 36vw; height: 21vw; top: 2%; }
 
-      #problem { font-size: clamp(0.8rem, 3vw, 1.6rem); }
+      #problem { font-size: clamp(1rem, 4vw, 2rem); }
 
       .fly-arm img { width: clamp(10px, 2.5vw, 20px) !important; }
 
-      .frog { width: 19vw; }
+      .frog { width: 23vw; }
 
       #f0 { left: 14%; bottom: 10%; }
       #f1 { left: 50%; bottom: 1%; }
       #f2 { left: 86%; bottom: 10%; }
 
       .frog-num {
-        font-size: clamp(1rem, 4.5vw, 2rem);
-        text-shadow: 3px 3px 0 #000, -3px 3px 0 #000,
-                     3px -3px 0 #000, -3px -3px 0 #000,
-                     3px 0 0 #000, -3px 0 0 #000,
-                     0 3px 0 #000, 0 -3px 0 #000;
+        font-size: clamp(1.1rem, 5vw, 2.2rem);
+        text-shadow: 2px 2px 0 #000, -2px 2px 0 #000,
+                     2px -2px 0 #000, -2px -2px 0 #000,
+                     2px 0 0 #000,  -2px 0 0 #000,
+                     0 2px 0 #000,   0 -2px 0 #000,
+                     1px 2px 0 #000, -1px 2px 0 #000,
+                     1px -2px 0 #000,-1px -2px 0 #000,
+                     2px 1px 0 #000, -2px 1px 0 #000,
+                     2px -1px 0 #000,-2px -1px 0 #000;
       }
 
       .frog:not(.sad):hover {
@@ -252,17 +256,21 @@
 
     /* ── Landscape tablets / small desktops (501–1100px tall/wide) ── */
     @media (orientation: landscape) and (min-height: 501px) and (max-width: 1100px) {
-      #center { width: 38vw; height: 23vw; top: 4%; }
-      .frog { width: 24vw; }
+      #center { width: 44vw; height: 26vw; top: 4%; }
+      .frog { width: 28vw; }
       #f0 { left: 14%; bottom: 18%; }
       #f1 { left: 50%; bottom: 3%; }
       #f2 { left: 86%; bottom: 18%; }
       .frog-num {
-        font-size: clamp(1.1rem, 4.5vw, 2.2rem);
-        text-shadow: 3px 3px 0 #000, -3px 3px 0 #000,
-                     3px -3px 0 #000, -3px -3px 0 #000,
-                     3px 0 0 #000, -3px 0 0 #000,
-                     0 3px 0 #000, 0 -3px 0 #000;
+        font-size: clamp(1.2rem, 5vw, 2.4rem);
+        text-shadow: 2px 2px 0 #000, -2px 2px 0 #000,
+                     2px -2px 0 #000, -2px -2px 0 #000,
+                     2px 0 0 #000,  -2px 0 0 #000,
+                     0 2px 0 #000,   0 -2px 0 #000,
+                     1px 2px 0 #000, -1px 2px 0 #000,
+                     1px -2px 0 #000,-1px -2px 0 #000,
+                     2px 1px 0 #000, -2px 1px 0 #000,
+                     2px -1px 0 #000,-2px -1px 0 #000;
       }
     }
 
@@ -343,7 +351,7 @@
 <body>
 <div id="game">
   <div id="score-box">⭐ <span id="score">0</span></div>
-  <div style="position:absolute;bottom:4px;left:4px;font-size:11px;color:rgba(255,255,255,0.7);z-index:999">v11</div>
+  <div style="position:absolute;bottom:4px;left:4px;font-size:11px;color:rgba(255,255,255,0.7);z-index:999">v12</div>
   <div id="flash"></div>
   <svg id="tongue-svg"></svg>
 
