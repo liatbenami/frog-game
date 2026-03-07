@@ -208,22 +208,26 @@
         font-size: 0.9rem; padding: 4px 10px;
       }
 
-      /* Leaf centered-upper — frogs fan out below it */
+      /* Leaf centered — frogs fan out below it */
       #center {
         width: 68vw; height: 40vw;
-        top: 28%;
+        top: 36%;
         animation: lily-bob-portrait 3.5s ease-in-out infinite;
       }
 
-      #problem { font-size: clamp(2rem, 13vw, 5.5rem); }
+      #problem {
+        font-size: clamp(2rem, 11vw, 4rem);
+        text-shadow: 1px 1px 0 #0a3000, -1px 1px 0 #0a3000,
+                     1px -1px 0 #0a3000, -1px -1px 0 #0a3000;
+      }
 
       .fly-arm img { width: clamp(22px, 6vw, 42px) !important; }
 
       /* Frogs evenly spread in arc below the leaf */
-      .frog { width: 26vw; }
-      #f0 { left: 18%; bottom: 30%; }
-      #f1 { left: 50%; bottom: 10%; }
-      #f2 { left: 82%; bottom: 30%; }
+      .frog { width: 30vw; }
+      #f0 { left: 18%; bottom: 18%; }
+      #f1 { left: 50%; bottom: 2%;  }
+      #f2 { left: 82%; bottom: 18%; }
 
       .frog-num {
         font-size: clamp(1.2rem, 7vw, 2.2rem);
@@ -482,11 +486,16 @@
 
     /* ── Very small portrait (< 380px) ─────── */
     @media (max-width: 380px) and (orientation: portrait) {
-      #center { width: 80vw; height: 47vw; top: 28%; }
-      .frog { width: 26vw; }
-      #f0 { left: 18%; bottom: 30%; }
-      #f1 { left: 50%; bottom: 10%; }
-      #f2 { left: 82%; bottom: 30%; }
+      #center { width: 80vw; height: 47vw; top: 36%; }
+      .frog { width: 30vw; }
+      #f0 { left: 18%; bottom: 18%; }
+      #f1 { left: 50%; bottom: 2%;  }
+      #f2 { left: 82%; bottom: 18%; }
+      #problem {
+        font-size: clamp(2rem, 11vw, 4rem);
+        text-shadow: 1px 1px 0 #0a3000, -1px 1px 0 #0a3000,
+                     1px -1px 0 #0a3000, -1px -1px 0 #0a3000;
+      }
       .frog-num {
         font-size: clamp(1.2rem, 7vw, 2.2rem);
         text-shadow: 1px 1px 0 #000, -1px 1px 0 #000,
@@ -522,7 +531,7 @@
 
   <div id="score-box">⭐ <span id="score">0</span></div>
   <button id="mute-btn" title="כבה/הדלק סאונד">🔊</button>
-  <div style="position:absolute;bottom:4px;left:4px;font-size:11px;color:rgba(255,255,255,0.7);z-index:999">v28</div>
+  <div style="position:absolute;bottom:4px;left:4px;font-size:11px;color:rgba(255,255,255,0.7);z-index:999">v29</div>
   <div id="flash"></div>
   <svg id="tongue-svg"></svg>
 
