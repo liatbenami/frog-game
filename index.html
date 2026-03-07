@@ -158,15 +158,13 @@
     }
 
     .frog-num {
-      position: absolute; left: 50%; top: 62%;
+      position: absolute; left: 50%; top: 58%;
       transform: translate(-50%, -50%);
-      font-size: 2.4rem; font-weight: 900; color: #1a0a00;
-      background: radial-gradient(circle, #ffe830 55%, #f5c000 100%);
-      border-radius: 50%;
-      width: 1.5em; height: 1.5em;
-      display: flex; align-items: center; justify-content: center;
-      text-shadow: none;
-      box-shadow: 0 2px 8px rgba(0,0,0,0.45);
+      font-size: 2.8rem; font-weight: 900; color: #FF1493;
+      text-shadow: 2px 2px 0 #000, -2px 2px 0 #000,
+                   2px -2px 0 #000, -2px -2px 0 #000,
+                   2px 0 0 #000, -2px 0 0 #000,
+                   0 2px 0 #000, 0 -2px 0 #000;
       pointer-events: none; z-index: 5;
     }
 
@@ -226,10 +224,10 @@
       .fly-arm img { width: clamp(22px, 6vw, 42px) !important; }
 
       /* Frogs evenly spread in arc below the leaf */
-      .frog { width: 34vw; }
-      #f0 { left: 19%; bottom: 24%; }
+      .frog { width: 40vw; }
+      #f0 { left: 22%; bottom: 24%; }
       #f1 { left: 50%; bottom: 6%;  }
-      #f2 { left: 81%; bottom: 24%; }
+      #f2 { left: 78%; bottom: 24%; }
 
       .frog-num { font-size: clamp(1.2rem, 7vw, 2.2rem); }
 
@@ -483,10 +481,10 @@
     /* ── Very small portrait (< 380px) ─────── */
     @media (max-width: 380px) and (orientation: portrait) {
       #center { width: 80vw; height: 47vw; top: 36%; }
-      .frog { width: 34vw; }
-      #f0 { left: 19%; bottom: 24%; }
+      .frog { width: 40vw; }
+      #f0 { left: 22%; bottom: 24%; }
       #f1 { left: 50%; bottom: 6%;  }
-      #f2 { left: 81%; bottom: 24%; }
+      #f2 { left: 78%; bottom: 24%; }
       #problem {
         font-size: clamp(2rem, 11vw, 4rem);
         text-shadow: 1px 1px 0 #0a3000, -1px 1px 0 #0a3000,
@@ -521,7 +519,7 @@
 
   <div id="score-box">⭐ <span id="score">0</span></div>
   <button id="mute-btn" title="כבה/הדלק סאונד">🔊</button>
-  <div style="position:absolute;bottom:4px;left:4px;font-size:11px;color:rgba(255,255,255,0.7);z-index:999">v31</div>
+  <div style="position:absolute;bottom:4px;left:4px;font-size:11px;color:rgba(255,255,255,0.7);z-index:999">v32</div>
   <div id="flash"></div>
   <svg id="tongue-svg"></svg>
 
