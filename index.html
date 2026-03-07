@@ -226,7 +226,11 @@
 
       #center { width: 36vw; height: 21vw; top: 2%; }
 
-      #problem { font-size: clamp(1rem, 4vw, 2rem); }
+      #problem {
+        font-size: clamp(1.3rem, 5vw, 2.5rem);
+        text-shadow: none;
+        -webkit-text-stroke: 1.5px #0a3000;
+      }
 
       .fly-arm img { width: clamp(10px, 2.5vw, 20px) !important; }
 
@@ -257,6 +261,11 @@
     /* ── Landscape tablets / small desktops (501–1100px tall/wide) ── */
     @media (orientation: landscape) and (min-height: 501px) and (max-width: 1100px) {
       #center { width: 44vw; height: 26vw; top: 4%; }
+      #problem {
+        font-size: clamp(1.6rem, 4.5vw, 3rem);
+        text-shadow: none;
+        -webkit-text-stroke: 1.5px #0a3000;
+      }
       .frog { width: 28vw; }
       #f0 { left: 14%; bottom: 18%; }
       #f1 { left: 50%; bottom: 3%; }
@@ -351,7 +360,7 @@
 <body>
 <div id="game">
   <div id="score-box">⭐ <span id="score">0</span></div>
-  <div style="position:absolute;bottom:4px;left:4px;font-size:11px;color:rgba(255,255,255,0.7);z-index:999">v12</div>
+  <div style="position:absolute;bottom:4px;left:4px;font-size:11px;color:rgba(255,255,255,0.7);z-index:999">v13</div>
   <div id="flash"></div>
   <svg id="tongue-svg"></svg>
 
