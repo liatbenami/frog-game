@@ -482,11 +482,18 @@
 
     /* ── Very small portrait (< 380px) ─────── */
     @media (max-width: 380px) and (orientation: portrait) {
-      #center { width: 96vw; height: 57vw; }
-      .frog { width: 40vw; }
-      #f0 { left: 20%; bottom: 37%; }
-      #f1 { left: 50%; bottom: 3%; }
-      #f2 { left: 80%; bottom: 37%; }
+      #center { width: 80vw; height: 47vw; top: 28%; }
+      .frog { width: 26vw; }
+      #f0 { left: 18%; bottom: 30%; }
+      #f1 { left: 50%; bottom: 10%; }
+      #f2 { left: 82%; bottom: 30%; }
+      .frog-num {
+        font-size: clamp(1.2rem, 7vw, 2.2rem);
+        text-shadow: 1px 1px 0 #000, -1px 1px 0 #000,
+                     1px -1px 0 #000, -1px -1px 0 #000,
+                     1px 0 0 #000, -1px 0 0 #000,
+                     0 1px 0 #000, 0 -1px 0 #000;
+      }
     }
   </style>
 </head>
@@ -515,7 +522,7 @@
 
   <div id="score-box">⭐ <span id="score">0</span></div>
   <button id="mute-btn" title="כבה/הדלק סאונד">🔊</button>
-  <div style="position:absolute;bottom:4px;left:4px;font-size:11px;color:rgba(255,255,255,0.7);z-index:999">v27</div>
+  <div style="position:absolute;bottom:4px;left:4px;font-size:11px;color:rgba(255,255,255,0.7);z-index:999">v28</div>
   <div id="flash"></div>
   <svg id="tongue-svg"></svg>
 
