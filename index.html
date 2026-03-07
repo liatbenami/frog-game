@@ -36,6 +36,21 @@
       z-index: 100;
     }
 
+    /* ── Mute button ─────────────────────────── */
+    #mute-btn {
+      position: absolute;
+      top: 16px; left: 20px;
+      background: rgba(255,255,255,0.9);
+      border: 3px solid #4a9c20;
+      border-radius: 50%;
+      width: 44px; height: 44px;
+      font-size: 1.3rem;
+      cursor: pointer;
+      box-shadow: 0 4px 12px rgba(0,0,0,0.3);
+      z-index: 100;
+      display: none; /* hidden until game starts */
+    }
+
     /* ── Center lily pad ─────────────────────── */
     #center {
       position: absolute;
@@ -193,10 +208,10 @@
         font-size: 0.9rem; padding: 4px 10px;
       }
 
-      /* Leaf centered, smaller so frogs fit below without covering it */
+      /* Leaf near top — frogs fan out below it */
       #center {
         width: 68vw; height: 40vw;
-        top: 50%;
+        top: 10%;
         animation: lily-bob-portrait 3.5s ease-in-out infinite;
       }
 
@@ -204,11 +219,11 @@
 
       .fly-arm img { width: clamp(22px, 6vw, 42px) !important; }
 
-      /* Semicircle below the leaf — frogs must stay within screen (38vw/2=19vw clearance) */
+      /* Frogs evenly spread below the leaf */
       .frog { width: 38vw; }
-      #f0 { left: 21%; bottom: 18%; }
-      #f1 { left: 50%; bottom: 2%;  }
-      #f2 { left: 79%; bottom: 18%; }
+      #f0 { left: 21%; bottom: 22%; }
+      #f1 { left: 50%; bottom: 4%;  }
+      #f2 { left: 79%; bottom: 22%; }
 
       .frog-num { font-size: clamp(1.8rem, 13vw, 4.5rem); }
 
@@ -493,7 +508,8 @@
   </div>
 
   <div id="score-box">⭐ <span id="score">0</span></div>
-  <div style="position:absolute;bottom:4px;left:4px;font-size:11px;color:rgba(255,255,255,0.7);z-index:999">v24</div>
+  <button id="mute-btn" title="כבה/הדלק סאונד">🔊</button>
+  <div style="position:absolute;bottom:4px;left:4px;font-size:11px;color:rgba(255,255,255,0.7);z-index:999">v25</div>
   <div id="flash"></div>
   <svg id="tongue-svg"></svg>
 
@@ -894,6 +910,17 @@
       waterBG.loop = true; waterBG.volume = 0.3;
       waterBG.play().catch(() => {});
     } catch(e) {}
+
+    // Show mute button and wire it up
+    const muteBtn = document.getElementById('mute-btn');
+    muteBtn.style.display = 'flex';
+    muteBtn.style.alignItems = 'center';
+    muteBtn.style.justifyContent = 'center';
+    muteBtn.addEventListener('click', () => {
+      if (!waterBG) return;
+      waterBG.muted = !waterBG.muted;
+      muteBtn.textContent = waterBG.muted ? '🔇' : '🔊';
+    });
 
     // Prepare first question while splash fades
     newQuestion();
