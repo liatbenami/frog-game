@@ -492,7 +492,7 @@
   </div>
 
   <div id="score-box">⭐ <span id="score">0</span></div>
-  <div style="position:absolute;bottom:4px;left:4px;font-size:11px;color:rgba(255,255,255,0.7);z-index:999">v21</div>
+  <div style="position:absolute;bottom:4px;left:4px;font-size:11px;color:rgba(255,255,255,0.7);z-index:999">v22</div>
   <div id="flash"></div>
   <svg id="tongue-svg"></svg>
 
@@ -536,9 +536,8 @@
 </div>
 
 <script>
-  // ── Audio refs (module-level to prevent garbage collection) ──
-  let waterBG      = null;
-  let frogStartAud = null;
+  // ── Audio ref (module-level to prevent garbage collection) ──
+  let waterBG = null;
 
   // ── State ─────────────────────────────────────────────────
   let score         = 0;
@@ -888,9 +887,6 @@
   document.getElementById('splash').addEventListener('click', function onSplashClick() {
     this.removeEventListener('click', onSplashClick);
 
-    // Stop frog-start splash sound
-    try { frogStartAud.pause(); frogStartAud.currentTime = 0; } catch(e) {}
-
     // Start water BG loop (create inside gesture handler for iOS unlock)
     try {
       waterBG = new Audio('sounds/water%20BG.mp3');
@@ -905,20 +901,6 @@
     setTimeout(() => { this.remove(); }, 720);
   });
 
-  // ── Frog-start sound on splash ────────────────────────────
-  // Try immediate autoplay (works on desktop + Android with prior engagement)
-  try {
-    frogStartAud = new Audio('sounds/frog%20start.mp3');
-    frogStartAud.play().catch(() => {});
-  } catch(e) {}
-  // Fallback: play on first touchstart (fires before click, unlocks audio on mobile)
-  document.addEventListener('touchstart', function unlockFrogSound() {
-    document.removeEventListener('touchstart', unlockFrogSound);
-    if (frogStartAud && frogStartAud.paused) {
-      frogStartAud.currentTime = 0;
-      frogStartAud.play().catch(() => {});
-    }
-  }, { once: true, passive: true });
 
   // ── Service Worker (force fresh updates) ──────────────────
   if ('serviceWorker' in navigator) {
