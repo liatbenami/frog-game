@@ -376,8 +376,7 @@
       font-size: clamp(1.1rem, 3.5vw, 1.8rem); color: #b8ffa8; margin-bottom: 2px;
     }
     #splash-title {
-      font-size: clamp(2rem, 10vw, 6rem); font-weight: 900;
-      white-space: nowrap;
+      font-size: clamp(3rem, 11vw, 6rem); font-weight: 900;
       color: #ffe840; letter-spacing: 2px;
       text-shadow: 3px 3px 0 #7a4000, -3px 3px 0 #7a4000,
                    3px -3px 0 #7a4000, -3px -3px 0 #7a4000,
@@ -449,19 +448,6 @@
     .sf5 { width:14vw; left:0;    bottom:38%; animation:sb-c 3.5s ease-in-out -0.6s infinite; }
     .sf6 { width:14vw; right:0;   bottom:38%; animation:sb-d 3.2s ease-in-out -1.0s infinite; }
 
-    /* Portrait phones — bigger frogs, compact card */
-    @media (orientation: portrait) and (max-width: 768px) {
-      .sf5, .sf6 { display: none; }
-      .sf0, .sf4 { width: 27vw; }
-      .sf1, .sf3 { width: 22vw; }
-      .sf2        { width: 25vw; }
-      #splash-card { top: 24%; padding: 12px 22px; }
-      #splash-subtitle-top { font-size: 1rem; margin-bottom: 2px; }
-      #splash-title { font-size: clamp(1.8rem, 9vw, 3rem); letter-spacing: 0; margin-bottom: 10px; }
-      #splash-play-btn { width: clamp(72px, 18vw, 110px); height: clamp(72px, 18vw, 110px); margin-bottom: 10px; }
-      #splash-tap { font-size: 0.95rem; }
-    }
-
     @media (orientation:landscape) and (max-height:500px) {
       .sf5, .sf6 { display: none; }
       .splash-frog { width: 18vh !important; }
@@ -506,7 +492,7 @@
   </div>
 
   <div id="score-box">⭐ <span id="score">0</span></div>
-  <div style="position:absolute;bottom:4px;left:4px;font-size:11px;color:rgba(255,255,255,0.7);z-index:999">v20</div>
+  <div style="position:absolute;bottom:4px;left:4px;font-size:11px;color:rgba(255,255,255,0.7);z-index:999">v21</div>
   <div id="flash"></div>
   <svg id="tongue-svg"></svg>
 
