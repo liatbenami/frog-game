@@ -34,12 +34,21 @@
       font-size: 1.3rem; font-weight: bold; color: #1a5000;
       box-shadow: 0 4px 12px rgba(0,0,0,0.3);
       z-index: 100;
+      transition: transform 0.15s ease;
+    }
+    #score-box.bonus-bump {
+      animation: score-bonus 0.7s ease-out forwards;
+    }
+    @keyframes score-bonus {
+      0%   { transform: scale(1);    background: rgba(255,255,255,0.9); color: #1a5000; }
+      25%  { transform: scale(1.55); background: #ffe840;               color: #7a4000; }
+      60%  { transform: scale(1.35); background: #ffe840;               color: #7a4000; }
+      100% { transform: scale(1);    background: rgba(255,255,255,0.9); color: #1a5000; }
     }
 
-    /* ── Mute button ─────────────────────────── */
-    #mute-btn {
+    /* ── Mute + Home buttons ─────────────────── */
+    #mute-btn, #home-btn {
       position: absolute;
-      top: 16px; left: 20px;
       background: rgba(255,255,255,0.9);
       border: 3px solid #4a9c20;
       border-radius: 50%;
@@ -49,6 +58,25 @@
       box-shadow: 0 4px 12px rgba(0,0,0,0.3);
       z-index: 100;
       display: none; /* hidden until game starts */
+    }
+    #mute-btn { top: 16px; left: 20px; }
+    #home-btn  { top: 16px; left: 74px; font-size: 1.1rem; }
+
+    /* ── Game mode header ───────────────────────── */
+    #game-header {
+      position: absolute;
+      top: 16px; left: 50%; transform: translateX(-50%);
+      background: rgba(255,255,255,0.9);
+      border: 3px solid #4a9c20; border-radius: 25px;
+      padding: 8px 20px;
+      font-size: 1rem; font-weight: bold; color: #1a5000;
+      box-shadow: 0 4px 12px rgba(0,0,0,0.3);
+      z-index: 100; white-space: nowrap;
+      display: none;
+    }
+
+    @media (max-width: 600px) {
+      #game-header { font-size: 0.78rem; padding: 5px 12px; top: 10px; }
     }
 
     /* ── Center lily pad ─────────────────────── */
@@ -493,6 +521,171 @@
       }
       .frog-num { font-size: clamp(1.4rem, 8vw, 2.4rem); }
     }
+
+    /* ── Menu buttons ──────────────────────────────────────── */
+    #splash { cursor: default; }
+
+    #mode-buttons, #diff-buttons {
+      display: flex; flex-direction: column;
+      gap: 10px; margin-top: 14px; width: 100%;
+    }
+
+    .game-btn {
+      display: flex; flex-direction: column; align-items: center;
+      width: 100%; padding: 12px 20px;
+      background: linear-gradient(135deg, rgba(40,130,20,0.9), rgba(60,170,30,0.85));
+      border: 3px solid #8ef040; border-radius: 18px;
+      color: #fff; font-family: 'Rubik', cursive, sans-serif;
+      font-size: clamp(1.15rem, 4vw, 1.65rem); font-weight: 700;
+      cursor: pointer;
+      transition: transform 0.15s, background 0.15s, box-shadow 0.15s;
+      text-shadow: 1px 1px 0 rgba(0,0,0,0.4);
+      box-shadow: 0 4px 14px rgba(0,0,0,0.45); direction: rtl;
+    }
+    .game-btn:hover {
+      transform: scale(1.06);
+      background: linear-gradient(135deg, rgba(55,170,30,0.95), rgba(80,210,40,0.9));
+      box-shadow: 0 6px 20px rgba(0,0,0,0.5), 0 0 12px rgba(142,240,64,0.4);
+    }
+    .game-btn:active { transform: scale(0.97); }
+
+    .btn-sub {
+      display: block; font-size: clamp(0.68rem, 2.2vw, 0.88rem);
+      font-weight: 400; color: #c8ffb0; margin-top: 2px;
+    }
+
+    /* ── Difficulty card ───────────────────────────────────── */
+    #diff-card {
+      position: absolute; top: 30%; left: 50%;
+      transform: translate(-50%, -50%);
+      background: rgba(5, 42, 5, 0.88);
+      border: 5px solid #8ef040; border-radius: 30px;
+      padding: 20px 36px; text-align: center; direction: rtl;
+      box-shadow: 0 10px 50px rgba(0,0,0,0.65), 0 0 0 6px rgba(142,240,64,0.18);
+      max-width: 92vw; min-width: 280px;
+      display: none; z-index: 10;
+    }
+    #diff-mode-title {
+      font-size: clamp(1.9rem, 6.5vw, 2.8rem); font-weight: 900;
+      color: #ffe840; letter-spacing: 1px;
+      text-shadow: 2px 2px 0 #7a4000, -2px 2px 0 #7a4000;
+      margin-bottom: 4px;
+    }
+    #diff-subtitle {
+      font-size: clamp(0.85rem, 2.8vw, 1.1rem);
+      color: #b8ffa8; margin-bottom: 6px;
+    }
+
+    @media (orientation:landscape) and (max-height:500px) {
+      #diff-card { padding: 10px 20px; }
+      #diff-mode-title { font-size: clamp(1.3rem, 4vh, 2rem); }
+      #diff-subtitle { font-size: clamp(0.72rem, 2.3vh, 0.9rem); }
+      .game-btn { padding: 8px 14px; font-size: clamp(0.88rem, 3vh, 1.25rem); }
+      .btn-sub { font-size: clamp(0.62rem, 1.9vh, 0.78rem); }
+    }
+
+    /* ── Bonus Round ─────────────────────────── */
+    #bonus-overlay {
+      display: none;
+      position: absolute; inset: 0;
+      background: rgba(0,15,0,0.93);
+      z-index: 200;
+      align-items: center; justify-content: center;
+    }
+    #bonus-card {
+      background: linear-gradient(160deg, #0a3d0a 0%, #176917 100%);
+      border: 4px solid #8ef040;
+      border-radius: 26px;
+      padding: 20px 16px 14px;
+      text-align: center; direction: rtl;
+      width: 94vw; max-width: 480px;
+      box-shadow: 0 0 55px rgba(142,240,64,0.5), 0 10px 30px rgba(0,0,0,0.65);
+    }
+    #bonus-title {
+      font-size: clamp(1.5rem, 5.5vw, 2.2rem);
+      font-weight: 900; color: #ffe840;
+      text-shadow: 2px 2px 0 #7a4000, -1px -1px 0 #7a4000;
+      margin-bottom: 5px;
+    }
+    @keyframes b-pulse {
+      from { transform: scale(1); }
+      to   { transform: scale(1.07); }
+    }
+    #bonus-msg {
+      font-size: clamp(0.95rem, 3.2vw, 1.25rem);
+      font-weight: 700; color: #c8ffc0;
+      margin-bottom: 6px; min-height: 1.6em;
+    }
+    #bonus-msg.win {
+      font-size: clamp(1.5rem, 5.5vw, 2.2rem);
+      color: #ffe840;
+      text-shadow: 2px 2px 0 #7a4000, -1px -1px 0 #7a4000;
+      animation: b-pulse 0.6s ease-in-out infinite alternate;
+    }
+    #bonus-stage {
+      position: relative;
+      width: 100%; height: 390px;
+      margin: 2px 0 4px;
+      overflow: visible;
+    }
+    .bonus-frog {
+      position: absolute;
+      width: 30%;
+      cursor: default;
+      transition: left 0.52s ease-in-out, top 0.52s ease-in-out;
+      text-align: center;
+      user-select: none;
+    }
+    .bfrog-img { width: 100%; height: auto; display: block; }
+    /* Fly badge: small circle at lower-right of frog, doesn't block face */
+    .bfly-badge {
+      display: none;
+      position: absolute;
+      bottom: 22%; right: 4%;
+      width: 38%;
+      background: rgba(255,235,0,0.97);
+      border-radius: 50%;
+      padding: 3px;
+      box-shadow: 0 0 0 3px #ffcc00, 0 0 14px 5px rgba(255,200,0,0.95);
+      pointer-events: none;
+      z-index: 5;
+      animation: fly-glow 0.55s ease-in-out infinite alternate;
+    }
+    @keyframes fly-glow {
+      from { box-shadow: 0 0 0 3px #ffcc00, 0 0 10px 3px rgba(255,200,0,0.8); }
+      to   { box-shadow: 0 0 0 4px #ff8c00, 0 0 20px 7px rgba(255,160,0,1);   }
+    }
+    .bfly-badge img { width: 100%; height: auto; display: block; border-radius: 50%; }
+    .bonus-frog.hopping {
+      animation: b-hop 0.52s ease-in-out;
+    }
+    @keyframes b-hop {
+      0%,100% { transform: translateY(0)    scale(1);    }
+      50%     { transform: translateY(-22px) scale(1.13); }
+    }
+    #bonus-stage.choosing .bonus-frog {
+      cursor: pointer;
+      transition: left 0.52s ease-in-out, top 0.52s ease-in-out, transform 0.15s ease;
+    }
+    #bonus-stage.choosing .bonus-frog:hover {
+      transform: translateY(-10px) scale(1.1);
+    }
+    .bonus-frog.b-winner {
+      animation: b-win 0.9s ease-in-out;
+    }
+    @keyframes b-win {
+      0%,100% { transform: translateY(0)    scale(1);    }
+      20%     { transform: translateY(-32px) scale(1.28); }
+      45%     { transform: translateY(-4px)  scale(1.05); }
+      65%     { transform: translateY(-18px) scale(1.16); }
+      85%     { transform: translateY(-2px)  scale(1.02); }
+    }
+    .bonus-frog.b-wrong .bfrog-img { filter: grayscale(1) opacity(0.4); }
+    #bonus-bottom {
+      font-size: clamp(1rem, 3.5vw, 1.25rem);
+      font-weight: 700; color: #c8ffc0;
+      min-height: 1.6em;
+    }
   </style>
 </head>
 <body>
@@ -510,17 +703,39 @@
     <div id="splash-card">
       <div id="splash-subtitle-top">בואו נתרגל את</div>
       <div id="splash-title">לוח הכפל!</div>
-      <div id="splash-play-btn">
-        <img id="splash-fly-img" src="pics/fly.png" alt="">
-        <div class="splash-play-arrow">▶</div>
+      <div id="mode-buttons">
+        <button class="game-btn" onclick="selectMode('multiply')">× כפל</button>
+        <button class="game-btn" onclick="selectMode('divide')">: חילוק</button>
+        <button class="game-btn" onclick="selectMode('both')">כפל וחילוק ×:</button>
       </div>
-      <div id="splash-tap">לחצו להתחלה</div>
+    </div>
+
+    <!-- Difficulty selection (shown after mode is picked) -->
+    <div id="diff-card">
+      <div id="diff-mode-title"></div>
+      <div id="diff-subtitle">בחרו רמת קושי</div>
+      <div id="diff-buttons">
+        <button class="game-btn" onclick="selectDifficulty('easy')">
+          ⭐ קל
+          <span class="btn-sub">כפולות 1–5</span>
+        </button>
+        <button class="game-btn" onclick="selectDifficulty('advanced')">
+          ⭐⭐ מתקדם
+          <span class="btn-sub">כפולות 5–10</span>
+        </button>
+        <button class="game-btn" id="diff-all-btn" onclick="selectDifficulty('all')">
+          ⭐⭐⭐ כל לוח הכפל
+          <span class="btn-sub">כפולות 1–10</span>
+        </button>
+      </div>
     </div>
   </div>
 
   <div id="score-box">⭐ <span id="score">0</span></div>
   <button id="mute-btn" title="כבה/הדלק סאונד">🔊</button>
-  <div style="position:absolute;bottom:4px;left:4px;font-size:11px;color:rgba(255,255,255,0.7);z-index:999">v35</div>
+  <button id="home-btn" title="חזרה להתחלה" onclick="goHome()">🏠</button>
+  <div id="game-header"></div>
+  <div style="position:absolute;bottom:4px;left:4px;font-size:11px;color:rgba(255,255,255,0.7);z-index:999">v52</div>
   <div id="flash"></div>
   <svg id="tongue-svg"></svg>
 
@@ -553,6 +768,37 @@
 
   </div>
 
+  <!-- ── Bonus Round Overlay ── -->
+  <div id="bonus-overlay">
+    <div id="bonus-card">
+      <div id="bonus-title">⭐ סיבוב בונוס ⭐</div>
+      <div id="bonus-msg"></div>
+      <div id="bonus-stage">
+        <div class="bonus-frog" id="bf0" onclick="handleBonusClick(0,event)">
+          <img class="bfrog-img" src="pics/frog-removebg.png" alt="צפרדע">
+          <div class="bfly-badge"><img src="pics/fly.jfif" alt="זבוב"></div>
+        </div>
+        <div class="bonus-frog" id="bf1" onclick="handleBonusClick(1,event)">
+          <img class="bfrog-img" src="pics/frog-removebg.png" alt="צפרדע">
+          <div class="bfly-badge"><img src="pics/fly.jfif" alt="זבוב"></div>
+        </div>
+        <div class="bonus-frog" id="bf2" onclick="handleBonusClick(2,event)">
+          <img class="bfrog-img" src="pics/frog-removebg.png" alt="צפרדע">
+          <div class="bfly-badge"><img src="pics/fly.jfif" alt="זבוב"></div>
+        </div>
+        <div class="bonus-frog" id="bf3" onclick="handleBonusClick(3,event)">
+          <img class="bfrog-img" src="pics/frog-removebg.png" alt="צפרדע">
+          <div class="bfly-badge"><img src="pics/fly.jfif" alt="זבוב"></div>
+        </div>
+        <div class="bonus-frog" id="bf4" onclick="handleBonusClick(4,event)">
+          <img class="bfrog-img" src="pics/frog-removebg.png" alt="צפרדע">
+          <div class="bfly-badge"><img src="pics/fly.jfif" alt="זבוב"></div>
+        </div>
+      </div>
+      <div id="bonus-bottom"></div>
+    </div>
+  </div>
+
   <!-- ── Bravo overlay ── -->
   <div id="bravo-overlay">
     <div id="bravo-card">
@@ -564,7 +810,7 @@
 </div>
 
 <script>
-  // ── Audio ref (module-level to prevent garbage collection) ──
+  // ── Audio ref ──────────────────────────────────────────────
   let waterBG = null;
 
   // ── State ─────────────────────────────────────────────────
@@ -572,10 +818,183 @@
   let opts          = [];
   let correctAns    = 0;
   let busy          = false;
-  let wrongQueue    = [];          // [{a, b, showAfter}] — re-ask after wrong
+  let wrongQueue    = [];   // [{op, a, b, showAfter}]
   let questionCount = 0;
   let currentQ      = { a: 0, b: 0 };
   let isRetry       = false;
+  let currentOp      = 'multiply';  // 'multiply' | 'divide' for current question
+  let gameMode       = null;        // 'multiply' | 'divide' | 'both'
+  let difficulty     = null;        // 'easy' | 'advanced' | 'all'
+  let masteryMap     = {};   // normalized key → correct count (mastered ≥ 3)
+  let weakProgress   = {};   // masteryKey → consecutive correct from wrongQueue
+  let lastCorrectPos = -1;   // last correct-frog index — rule 2
+  let exerciseDeck   = [];   // pre-shuffled list of {op,fa,fb} — current round
+  let deckPos        = 0;    // next index to draw from the deck
+
+  // ── Bonus Round state ──────────────────────────────────
+  // 5 slots: row 1 = top (3 frogs), row 2 = bottom (2 frogs centered)
+  const BSLOT = [
+    { left: '1%',    top: '0%'  },   // 0 — top-left
+    { left: '35%',   top: '0%'  },   // 1 — top-center
+    { left: '69%',   top: '0%'  },   // 2 — top-right
+    { left: '18%',   top: '52%' },   // 3 — bottom-left
+    { left: '52%',   top: '52%' },   // 4 — bottom-right
+  ];
+  let bonusPhase  = 'idle';  // 'idle' | 'reveal' | 'shuffle' | 'choose' | 'result'
+  let bonusTarget = -1;      // which frog (0–4) has the fly
+  let bFrogSlot   = [0, 1, 2, 3, 4]; // bFrogSlot[frogId] = current slot index
+  let bonusSfx    = null;    // audio for shuffling sound
+
+  // ── Range helpers ──────────────────────────────────────────
+  function getRangeForDifficulty() {
+    if (difficulty === 'easy')     return { min: 1, max: 5 };
+    if (difficulty === 'advanced') return { min: 5, max: 10 };
+    return { min: 1, max: 10 };
+  }
+
+  function randInRange(min, max) {
+    return min + Math.floor(Math.random() * (max - min + 1));
+  }
+
+  // ── Smart question helpers ─────────────────────────────────
+  // Rule 1: mastery key — normalize multiply (3×4 = 4×3 same fact)
+  function getMasteryKey(op, a, b) {
+    return op === 'multiply' ? `m_${Math.min(a,b)}_${Math.max(a,b)}` : `d_${a}_${b}`;
+  }
+
+  function shuffleArr(arr) {
+    for (let i = arr.length - 1; i > 0; i--) {
+      const j = Math.floor(Math.random() * (i + 1));
+      [arr[i], arr[j]] = [arr[j], arr[i]];
+    }
+    return arr;
+  }
+
+  // Build a fully-shuffled deck — guarantees variety (rules 1, 3, 4)
+  function buildDeck() {
+    const { min, max } = getRangeForDifficulty();
+    const ops = gameMode === 'both'     ? ['multiply', 'divide']
+              : gameMode === 'multiply' ? ['multiply'] : ['divide'];
+
+    const regular = [];   // main exercises
+    const sparse  = [];   // trivial factors (1 or 10) in non-easy modes — rule 3
+
+    for (const op of ops) {
+      for (let fa = min; fa <= max; fa++) {
+        for (let fb = min; fb <= max; fb++) {
+          if (op === 'multiply' && fa > fb) continue; // dedup: 3×4 and 4×3 are same fact
+          const qa = op === 'multiply' ? fa : fa * fb;
+          const qb = op === 'multiply' ? fb : fa;
+          const deckMk = getMasteryKey(op, qa, qb);
+          if ((masteryMap[deckMk] || 0) >= 3) continue; // mastered at 3
+          if (wrongQueue.some(q => getMasteryKey(q.op, q.a, q.b) === deckMk)) continue; // already in retry queue
+
+          const trivial = difficulty !== 'easy' && (fa === 1 || fa === 10 || fb === 1 || fb === 10);
+          (trivial ? sparse : regular).push({ op, fa, fb });
+        }
+      }
+    }
+
+    shuffleArr(regular);
+    shuffleArr(sparse);
+
+    // Interleave: 1 trivial per 8 regular (rule 3: fewer easy-factor exercises)
+    const deck = [];
+    let si = 0;
+    regular.forEach((ex, i) => {
+      deck.push(ex);
+      if ((i + 1) % 8 === 0 && si < sparse.length) deck.push(sparse[si++]);
+    });
+
+    // Fallback: everything mastered — rebuild ignoring mastery
+    if (deck.length === 0) {
+      const all = [];
+      for (const op of ops)
+        for (let fa = min; fa <= max; fa++)
+          for (let fb = min; fb <= max; fb++)
+            all.push({ op, fa, fb });
+      return shuffleArr(all);
+    }
+
+    return deck;
+  }
+
+  // Draw next exercise, rebuilding deck when exhausted (rule 4: full variety cycle)
+  function nextExercise() {
+    if (deckPos >= exerciseDeck.length) {
+      exerciseDeck = buildDeck();
+      deckPos = 0;
+    }
+    return exerciseDeck[deckPos++];
+  }
+
+  // ── Mode selection (screen 1 → screen 2) ──────────────────
+  function selectMode(mode) {
+    gameMode = mode;
+    const splashCard = document.getElementById('splash-card');
+    const diffCard   = document.getElementById('diff-card');
+
+    splashCard.style.transition = 'transform 0.28s ease-in, opacity 0.28s ease-in';
+    splashCard.style.transform  = 'translate(-50%, -50%) scale(0.3)';
+    splashCard.style.opacity    = '0';
+
+    setTimeout(() => {
+      splashCard.style.display = 'none';
+      const labels = { multiply: '× כפל', divide: ': חילוק', both: 'כפל וחילוק ×:' };
+      document.getElementById('diff-mode-title').textContent = labels[mode];
+      document.getElementById('diff-all-btn').style.display = mode === 'both' ? '' : 'none';
+
+      diffCard.style.display   = 'block';
+      diffCard.style.animation = 'none';
+      void diffCard.offsetWidth;
+      diffCard.style.animation = 'splash-card-bounce 0.55s cubic-bezier(0.34,1.56,0.64,1) both';
+    }, 300);
+  }
+
+  // ── Difficulty selection → start game ─────────────────────
+  function selectDifficulty(diff) {
+    difficulty = diff;
+
+    try {
+      waterBG = new Audio('sounds/water%20BG.mp3');
+      waterBG.loop = true; waterBG.volume = 0.3;
+      waterBG.play().catch(() => {});
+    } catch(e) {}
+
+    const muteBtn = document.getElementById('mute-btn');
+    muteBtn.style.display = 'flex';
+    muteBtn.style.alignItems = 'center';
+    muteBtn.style.justifyContent = 'center';
+    muteBtn.addEventListener('click', () => {
+      if (!waterBG) return;
+      waterBG.muted = !waterBG.muted;
+      muteBtn.textContent = waterBG.muted ? '🔇' : '🔊';
+    });
+
+    newQuestion();
+
+    // Set game header label
+    const modeLabel = { multiply: 'כפל ×', divide: 'חילוק :', both: 'כפל וחילוק' }[gameMode];
+    const diffLabel = { easy: 'קל (1–5)', advanced: 'מתקדם (5–10)', all: 'כל לוח הכפל (1–10)' }[diff];
+    const hdr = document.getElementById('game-header');
+    hdr.textContent = `${modeLabel}  —  ${diffLabel}`;
+    hdr.style.display = 'block';
+
+    // Show home button
+    const homeBtn = document.getElementById('home-btn');
+    homeBtn.style.display = 'flex';
+    homeBtn.style.alignItems = 'center';
+    homeBtn.style.justifyContent = 'center';
+
+    // Hide splash (but keep in DOM for goHome)
+    const splash = document.getElementById('splash');
+    splash.classList.add('hiding');
+    setTimeout(() => {
+      splash.style.display = 'none';
+      splash.classList.remove('hiding');
+      splash.style.opacity = '';
+    }, 720);
+  }
 
   // ── Flies ─────────────────────────────────────────────────
   const FLY_RADII  = [86, 108, 95, 116];
@@ -706,21 +1125,31 @@
   }
 
   // ── Wrong answers ─────────────────────────────────────────
-  function getWrongAnswers(correct) {
-    const pool = [];
-    for (let a = 1; a <= 10; a++)
-      for (let b = 1; b <= 10; b++)
-        if (a * b !== correct) pool.push(a * b);
+  function getWrongAnswersMultiply(correct) {
+    const { min, max } = getRangeForDifficulty();
+    const pool = new Set();
+    for (let a = min; a <= max; a++)
+      for (let b = min; b <= max; b++)
+        if (a * b !== correct) pool.add(a * b);
+    return [...pool]
+      .sort((a, b) => Math.abs(a - correct) - Math.abs(b - correct))
+      .slice(0, 2);
+  }
 
-    const unique = [...new Set(pool)].sort(
-      (a, b) => Math.abs(a - correct) - Math.abs(b - correct)
-    );
-    const wrong = [];
-    for (const n of unique) {
-      if (wrong.length === 2) break;
-      if (!wrong.includes(n)) wrong.push(n);
-    }
-    return wrong;
+  function getWrongAnswersDivide(correct) {
+    const { min, max } = getRangeForDifficulty();
+    const pool = [];
+    for (let n = min; n <= max; n++)
+      if (n !== correct) pool.push(n);
+    return pool
+      .sort((a, b) => Math.abs(a - correct) - Math.abs(b - correct))
+      .slice(0, 2);
+  }
+
+  function getWrongAnswers(correct) {
+    return currentOp === 'divide'
+      ? getWrongAnswersDivide(correct)
+      : getWrongAnswersMultiply(correct);
   }
 
   // ── New question ──────────────────────────────────────────
@@ -733,7 +1162,6 @@
       f.style.filter = '';
     }
 
-    // Reset lily pad instantly (no un-eat animation)
     const lilyWrap = document.getElementById('lily-wrap');
     lilyWrap.style.transition = 'none';
     lilyWrap.style.transform  = '';
@@ -741,7 +1169,6 @@
     void lilyWrap.offsetWidth;
     lilyWrap.style.transition = '';
 
-    // Entrance bounce
     lilyWrap.classList.remove('entering');
     void lilyWrap.offsetWidth;
     lilyWrap.classList.add('entering');
@@ -749,23 +1176,43 @@
     document.getElementById('problem').style.opacity = '1';
 
     questionCount++;
+    // Bonus round every 20 questions
+    if (questionCount % 20 === 0) { launchBonusGame(); return; }
+
     let a, b;
     const due = wrongQueue.find(q => q.showAfter <= questionCount);
     if (due) {
       wrongQueue.splice(wrongQueue.indexOf(due), 1);
+      currentOp = due.op;
       a = due.a; b = due.b;
       isRetry = true;
     } else {
-      a = Math.ceil(Math.random() * 10);
-      b = Math.ceil(Math.random() * 10);
+      // Draw next exercise from pre-shuffled deck (rules 1, 3, 4 handled by buildDeck)
+      const ex  = nextExercise();
+      currentOp = ex.op;
+      if (currentOp === 'multiply') { a = ex.fa; b = ex.fb; }
+      else                          { a = ex.fa * ex.fb; b = ex.fa; }
       isRetry = false;
     }
+
     currentQ   = { a, b };
-    correctAns = a * b;
-    document.getElementById('problem').textContent = `${a} × ${b} = ?`;
+    correctAns = currentOp === 'multiply' ? a * b : a / b;
+
+    const opSym = currentOp === 'multiply' ? '×' : ':';
+    document.getElementById('problem').textContent = `${a} ${opSym} ${b} = ?`;
 
     const wrong = getWrongAnswers(correctAns);
-    opts = [correctAns, ...wrong].sort(() => Math.random() - 0.5);
+
+    // Rule 2: correct frog never in same position as last time
+    const allowed    = [0, 1, 2].filter(p => p !== lastCorrectPos);
+    const correctPos = allowed[Math.floor(Math.random() * allowed.length)];
+    const otherPos   = [0, 1, 2].filter(p => p !== correctPos);
+    const shuffW     = wrong.sort(() => Math.random() - 0.5);
+    opts = [null, null, null];
+    opts[correctPos] = correctAns;
+    otherPos.forEach((p, i) => { opts[p] = shuffW[i]; });
+    lastCorrectPos = correctPos;
+
     for (let i = 0; i < 3; i++)
       document.getElementById(`n${i}`).textContent = opts[i];
 
@@ -782,23 +1229,49 @@
       score++;
       document.getElementById('score').textContent = score;
 
+      // Rule 1: track mastery
+      const mk = getMasteryKey(currentOp, currentQ.a, currentQ.b);
+      masteryMap[mk] = (masteryMap[mk] || 0) + 1;
+
       const flash = document.getElementById('flash');
       flash.classList.remove('on');
       void flash.offsetWidth;
       flash.classList.add('on');
 
-      const wasRetry    = isRetry;
-      const { a, b }    = currentQ;
+      const wasRetry = isRetry;
+      const { a, b } = currentQ;
+      const op       = currentOp;
 
       if (wasRetry) {
-        // 🎉 Retry correct → bravo overlay!
+        // 🎉 Retry correct — graduated when total correct answers reaches mastery threshold
+        weakProgress[mk] = (weakProgress[mk] || 0) + 1;
+        const graduated  = masteryMap[mk] >= 3;
+        const firstRetry = weakProgress[mk] === 1;  // show bravo only on first correct retry
+
         shootTongue(idx, false, () => {
           const lilyWrap = document.getElementById('lily-wrap');
           lilyWrap.style.transition = 'opacity 0.3s';
           lilyWrap.style.opacity    = '0';
           document.getElementById('problem').style.opacity = '0';
-          playBravoSound();
-          showBravo(a, b, newQuestion);
+
+          const proceed = () => {
+            if (!graduated) {
+              const gap = 8 + (weakProgress[mk] - 1) * 5;
+              wrongQueue.push({ op, a, b, showAfter: questionCount + gap });
+            } else {
+              delete weakProgress[mk];
+              wrongQueue = wrongQueue.filter(q => !(q.op === op && q.a === a && q.b === b));
+            }
+            newQuestion();
+          };
+
+          if (firstRetry) {
+            playBravoSound();
+            showBravo(op, a, b, proceed);
+          } else {
+            playSuccess();
+            setTimeout(proceed, 420);
+          }
         });
       } else {
         // Normal correct → standard success
@@ -814,12 +1287,15 @@
       }
 
     } else {
-      // ❌ Wrong: schedule re-ask after 4–6 questions
-      const { a, b } = currentQ;
-      const showAfter = questionCount + 4 + Math.floor(Math.random() * 3);
-      const existing  = wrongQueue.findIndex(q => q.a === a && q.b === b);
+      // ❌ Wrong: schedule re-ask — at least 4 questions in between
+      const { a, b }  = currentQ;
+      const mk        = getMasteryKey(currentOp, a, b);
+      weakProgress[mk] = 0;   // reset correct streak on wrong answer
+
+      const showAfter = questionCount + 5 + Math.floor(Math.random() * 3);
+      const existing  = wrongQueue.findIndex(q => q.op === currentOp && q.a === a && q.b === b);
       if (existing >= 0) wrongQueue[existing].showAfter = showAfter;
-      else               wrongQueue.push({ a, b, showAfter });
+      else               wrongQueue.push({ op: currentOp, a, b, showAfter });
 
       shootTongue(idx, true, () => {
         const frogEl = document.getElementById(`f${idx}`);
@@ -895,9 +1371,12 @@
   }
 
   // ── Bravo overlay ─────────────────────────────────────────
-  function showBravo(a, b, onDone) {
+  function showBravo(op, a, b, onDone) {
+    const factText = op === 'multiply'
+      ? `${a} × ${b} = ${a * b}`
+      : `${a} : ${b} = ${a / b}`;
     const overlay = document.getElementById('bravo-overlay');
-    document.getElementById('bravo-fact').textContent = `${a} × ${b} = ${a * b}`;
+    document.getElementById('bravo-fact').textContent = factText;
     overlay.classList.remove('hide');
     overlay.classList.add('show');
 
@@ -911,35 +1390,212 @@
     }, 4000);
   }
 
-  // ── Start (after splash dismissed) ───────────────────────
-  document.getElementById('splash').addEventListener('click', function onSplashClick() {
-    this.removeEventListener('click', onSplashClick);
 
-    // Start water BG loop (create inside gesture handler for iOS unlock)
+
+  // ── Bonus Round ──────────────────────────────────────────
+  function applyBonusPositions(animated) {
+    const tr = animated
+      ? 'left 0.52s ease-in-out, top 0.52s ease-in-out'
+      : 'none';
+    [0, 1, 2, 3, 4].forEach(i => {
+      const el  = document.getElementById(`bf${i}`);
+      const pos = BSLOT[bFrogSlot[i]];
+      el.style.transition = tr;
+      el.style.left = pos.left;
+      el.style.top  = pos.top;
+    });
+  }
+
+  function launchBonusGame() {
+    bonusPhase  = 'reveal';
+    bonusTarget = Math.floor(Math.random() * 5);
+    bFrogSlot   = [0, 1, 2, 3, 4];
+
+    // Reset all 5 frog elements
+    [0, 1, 2, 3, 4].forEach(i => {
+      const el = document.getElementById(`bf${i}`);
+      el.className = 'bonus-frog';
+      el.querySelector('.bfly-badge').style.display = i === bonusTarget ? 'block' : 'none';
+    });
+    document.getElementById('bonus-stage').className    = '';
+    document.getElementById('bonus-msg').textContent    = '';
+    document.getElementById('bonus-bottom').textContent = 'שים לב — זכור על איזו צפרדע נמצא הזבוב 🪰';
+    applyBonusPositions(false);
+
+    // Mute background music during bonus
+    if (waterBG) waterBG.volume = 0;
+
+    document.getElementById('bonus-overlay').style.display = 'flex';
+    setTimeout(doBonusShuffle, 3000);
+  }
+
+  function doBonusShuffle() {
+    bonusPhase = 'shuffle';
+    document.getElementById('bonus-msg').textContent    = '';
+    document.getElementById('bonus-bottom').textContent = '';
+    // Hide fly on all frogs
+    [0, 1, 2, 3, 4].forEach(i =>
+      document.getElementById(`bf${i}`).querySelector('.bfly-badge').style.display = 'none'
+    );
+
+    // Play shuffling sound on loop for ~6 seconds
     try {
-      waterBG = new Audio('sounds/water%20BG.mp3');
-      waterBG.loop = true; waterBG.volume = 0.3;
-      waterBG.play().catch(() => {});
+      bonusSfx = new Audio('sounds/frog%20start.mp3');
+      bonusSfx.loop = true;
+      bonusSfx.volume = 0.6;
+      bonusSfx.play().catch(() => {});
     } catch(e) {}
 
-    // Show mute button and wire it up
-    const muteBtn = document.getElementById('mute-btn');
-    muteBtn.style.display = 'flex';
-    muteBtn.style.alignItems = 'center';
-    muteBtn.style.justifyContent = 'center';
-    muteBtn.addEventListener('click', () => {
-      if (!waterBG) return;
-      waterBG.muted = !waterBG.muted;
-      muteBtn.textContent = waterBG.muted ? '🔇' : '🔊';
-    });
+    // 10 swaps: 700ms → 280ms, total ≈ 6 seconds
+    const totalSwaps = 10;
+    let done = 0;
+    let dur  = 700;
 
-    // Prepare first question while splash fades
-    newQuestion();
+    function nextSwap() {
+      if (done >= totalSwaps) {
+        // Stop sound
+        if (bonusSfx) { bonusSfx.pause(); bonusSfx = null; }
+        bonusPhase = 'choose';
+        document.getElementById('bonus-msg').textContent    = '';
+        document.getElementById('bonus-bottom').textContent = 'איפה הצפרדע עם הזבוב? לחץ עליה 🪰';
+        document.getElementById('bonus-stage').className   = 'choosing';
+        return;
+      }
 
-    this.classList.add('hiding');
-    setTimeout(() => { this.remove(); }, 720);
-  });
+      // Pick two random distinct frogs
+      const fA = Math.floor(Math.random() * 5);
+      let   fB; do { fB = Math.floor(Math.random() * 5); } while (fB === fA);
 
+      // Swap slots
+      [bFrogSlot[fA], bFrogSlot[fB]] = [bFrogSlot[fB], bFrogSlot[fA]];
+      applyBonusPositions(true);
+
+      // Arc hop
+      const elA = document.getElementById(`bf${fA}`);
+      const elB = document.getElementById(`bf${fB}`);
+      elA.classList.add('hopping'); elB.classList.add('hopping');
+      setTimeout(() => {
+        elA.classList.remove('hopping'); elB.classList.remove('hopping');
+      }, dur);
+
+      done++;
+      dur = Math.max(280, dur - 44);
+      setTimeout(nextSwap, dur + 50);
+    }
+
+    setTimeout(nextSwap, 400);
+  }
+
+  function handleBonusClick(frogId, event) {
+    event.stopPropagation(); // always stop — prevents overlay's reveal-tap from firing
+    if (bonusPhase !== 'choose') return;
+    bonusPhase = 'result';
+    if (bonusSfx) { bonusSfx.pause(); bonusSfx = null; }
+    document.getElementById('bonus-stage').className = '';
+
+    const won = frogId === bonusTarget;
+    // Reveal fly on the correct frog
+    document.getElementById(`bf${bonusTarget}`).querySelector('.bfly-badge').style.display = 'block';
+
+    if (won) {
+      score += 10;
+      document.getElementById('score').textContent = score;
+      document.getElementById(`bf${frogId}`).classList.add('b-winner');
+      playSuccess();
+      const bMsg = document.getElementById('bonus-msg');
+      bMsg.classList.add('win');
+      bMsg.textContent = 'קוואה קוואה! 🐸 +10 נקודות בונוס!';
+    } else {
+      document.getElementById(`bf${frogId}`).classList.add('b-wrong');
+      document.getElementById('bonus-msg').textContent = 'כמעט! הנה איפה הייתה הצפרדע 🐸';
+    }
+    document.getElementById('bonus-bottom').textContent = '';
+
+    setTimeout(() => {
+      // Close bonus overlay
+      document.getElementById('bonus-overlay').style.display = 'none';
+      document.getElementById('bonus-msg').classList.remove('win');
+      bonusPhase = 'idle';
+      if (waterBG) waterBG.volume = 0.3;
+
+      // Score bump effect (only on win)
+      if (won) {
+        const sb = document.getElementById('score-box');
+        sb.classList.remove('bonus-bump');
+        void sb.offsetWidth; // reflow to restart animation
+        sb.classList.add('bonus-bump');
+        setTimeout(() => sb.classList.remove('bonus-bump'), 750);
+      }
+
+      newQuestion();
+    }, 1800);
+  }
+
+  // ── Go Home ───────────────────────────────────────────────
+  function goHome() {
+    if (waterBG) { try { waterBG.pause(); } catch(e) {} waterBG = null; }
+
+    // Hide bonus if open
+    document.getElementById('bonus-overlay').style.display = 'none';
+    bonusPhase = 'idle';
+    if (bonusSfx) { bonusSfx.pause(); bonusSfx = null; }
+    if (waterBG) waterBG.volume = 0.3;
+
+    // Reset game state
+    score = 0; opts = []; correctAns = 0; busy = false;
+    wrongQueue = []; questionCount = 0; isRetry = false;
+    currentOp = 'multiply'; gameMode = null; difficulty = null;
+    lastCorrectPos = -1; exerciseDeck = []; deckPos = 0;
+    // masteryMap persists — knowledge carries over within the same session
+    document.getElementById('score').textContent = '0';
+
+    // Hide game-only buttons + header
+    document.getElementById('mute-btn').style.display = 'none';
+    document.getElementById('home-btn').style.display = 'none';
+    document.getElementById('game-header').style.display = 'none';
+
+    // Clear flies + SVG tongue paths
+    document.getElementById('center').querySelectorAll('.fly-arm').forEach(e => e.remove());
+    document.getElementById('tongue-svg').innerHTML = '';
+
+    // Reset frogs
+    for (let i = 0; i < 3; i++) {
+      const f = document.getElementById(`f${i}`);
+      f.className = 'frog'; f.style.filter = '';
+    }
+
+    // Reset lily pad
+    const lilyWrap = document.getElementById('lily-wrap');
+    lilyWrap.style.transition = 'none';
+    lilyWrap.style.transform  = '';
+    lilyWrap.style.opacity    = '';
+    lilyWrap.classList.remove('entering');
+
+    // Reset problem
+    document.getElementById('problem').style.opacity = '1';
+    document.getElementById('flash').classList.remove('on');
+
+    // Hide bravo overlay
+    const overlay = document.getElementById('bravo-overlay');
+    overlay.classList.remove('show', 'hide');
+
+    // Restore splash
+    const splash = document.getElementById('splash');
+    splash.style.display = '';
+
+    // Restore splash card (clear styles set by selectMode)
+    const splashCard = document.getElementById('splash-card');
+    splashCard.style.display    = '';
+    splashCard.style.transition = '';
+    splashCard.style.opacity    = '';
+    splashCard.style.animation  = 'none';
+    void splashCard.offsetWidth;
+    splashCard.style.transform  = '';
+    splashCard.style.animation  = 'splash-card-bounce 0.55s cubic-bezier(0.34,1.56,0.64,1) both';
+
+    // Hide diff card
+    document.getElementById('diff-card').style.display = 'none';
+  }
 
   // ── Service Worker (force fresh updates) ──────────────────
   if ('serviceWorker' in navigator) {
